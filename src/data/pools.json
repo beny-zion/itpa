@@ -1,0 +1,117 @@
+[
+  {
+    "id": "1",
+    "name": "מרכז בועות",
+    "operator": "בועיות - המרכז הישראלי למצוינות",
+    "address": "רחוב המים 10",
+    "city": "בני ברק",
+    "phone": "03-1234567",
+    "email": "office@buot.org.il",
+    "openingHours": {
+      "sunday_thursday": "08:00-20:00",
+      "friday": "08:00-13:00"
+    },
+    "treatments": [
+      "הידרותרפיה לילדים",
+      "שיקום נוירולוגי",
+      "טיפול במים לנשים בהריון"
+    ],
+    "isAccessible": true
+  },
+  {
+    "id": "2",
+    "name": "בריכת השרון",
+    "operator": "עמותת בריאות במים",
+    "address": "רחוב הגפן 25",
+    "city": "רעננה",
+    "phone": "09-7654321",
+    "email": "info@sharon-pool.co.il",
+    "openingHours": {
+      "sunday_thursday": "07:00-21:00",
+      "friday": "07:00-14:00"
+    },
+    "treatments": [
+      "הידרותרפיה למבוגרים",
+      "שיקום אורתופדי",
+      "אקווה יוגה"
+    ],
+    "isAccessible": true
+  },
+  {
+    "id": "3",
+    "name": "מרכז המים הטיפולי",
+    "operator": "קרן שיקום ובריאות",
+    "address": "שדרות בן גוריון 50",
+    "city": "תל אביב",
+    "phone": "03-9876543",
+    "email": "contact@water-therapy.co.il",
+    "openingHours": {
+      "sunday_thursday": "06:00-22:00",
+      "friday": "06:00-15:00"
+    },
+    "treatments": [
+      "הידרותרפיה לילדים",
+      "שיקום נוירולוגי",
+      "שיקום לאחר ניתוח",
+      "טיפול בכאב כרוני"
+    ],
+    "isAccessible": true
+  },
+  {
+    "id": "4",
+    "name": "בריכת הגליל",
+    "operator": "מרכז הגליל לרפואה משלימה",
+    "address": "רחוב הארזים 8",
+    "city": "כרמיאל",
+    "phone": "04-1234567",
+    "email": "galil@therapy-pool.co.il",
+    "openingHours": {
+      "sunday_thursday": "08:00-19:00",
+      "friday": "08:00-12:00"
+    },
+    "treatments": [
+      "הידרותרפיה למבוגרים",
+      "וואטסו",
+      "טיפול בפיברומיאלגיה"
+    ],
+    "isAccessible": false
+  },
+  {
+    "id": "5",
+    "name": "מרכז הנגב להידרותרפיה",
+    "operator": "עמותת בריאות הנגב",
+    "address": "רחוב התמר 15",
+    "city": "באר שבע",
+    "phone": "08-6543210",
+    "email": "negev@hydro.org.il",
+    "openingHours": {
+      "sunday_thursday": "07:30-20:00",
+      "friday": "07:30-13:00"
+    },
+    "treatments": [
+      "הידרותרפיה לילדים",
+      "שיקום אורתופדי",
+      "טיפול במים לנשים בהריון"
+    ],
+    "isAccessible": true
+  },
+  {
+    "name": "מרכז בועות ",
+    "operator": "בועות",
+    "address": "רובע ב'",
+    "city": "אשדוד",
+    "phone": "0504141414",
+    "email": "bcdif@gmail.com",
+    "openingHours": {
+      "sunday_thursday": "09:00-15:00",
+      "friday": "סגור"
+    },
+    "treatments": [
+      "הידרוטרפיה",
+      "שיקום",
+      "שחיה חופשית"
+    ],
+    "isAccessible": false,
+    "id": "6"
+  }
+]
