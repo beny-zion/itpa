@@ -2,14 +2,23 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Helper function to create proper href for sections
   const getSectionHref = (hash) => {
@@ -19,38 +28,46 @@ export default function Header() {
   const navItems = [
     { href: getSectionHref("#about"), label: "אודות" },
     { href: getSectionHref("#goals"), label: "מטרות" },
-    { href: getSectionHref("#activities"), label: "תחומי פעילות" },
+    { href: getSectionHref("#activities"), label: "פעילות" },
     { href: getSectionHref("#committees"), label: "ועדות" },
-    { href: getSectionHref("#pools"), label: "אינדקס בריכות" },
+    { href: getSectionHref("#pools"), label: "בריכות" },
     { href: "/contact", label: "צור קשר" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="container mx-auto px-4" aria-label="ניווט ראשי">
-        <div className="flex h-16 items-center justify-between">
+    <header
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/95 backdrop-blur-lg shadow-sm border-b border-border/50"
+          : "bg-transparent"
+      }`}
+    >
+      <nav className="container mx-auto px-6 md:px-12 lg:px-20" aria-label="ניווט ראשי">
+        <div className="flex h-20 items-center justify-between">
           <Link
             href="/"
-            className="flex items-center gap-2 text-xl font-bold text-primary"
+            className="flex items-center gap-3 text-xl font-bold text-foreground"
             aria-label="עמוד הבית - איגוד הבריכות הטיפוליות"
           >
             <Image
               src="/bti_logo.svg"
               alt="לוגו איגוד הבריכות הטיפוליות"
-              width={40}
-              height={40}
-              className="h-10 w-10"
+              width={44}
+              height={44}
+              className="h-11 w-11"
             />
-            <span className="hidden sm:inline">איגוד הבריכות הטיפוליות</span>
+            <span className="hidden lg:inline text-lg font-semibold">
+              איגוד הבריכות הטיפוליות
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center gap-6">
+          <ul className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus:text-primary"
+                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground relative after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-primary after:scale-x-0 after:transition-transform hover:after:scale-x-100"
                 >
                   {item.label}
                 </Link>
@@ -58,18 +75,25 @@ export default function Header() {
             ))}
           </ul>
 
-          <div className="hidden md:flex items-center gap-4">
-            <Button asChild variant="outline">
+          <div className="hidden md:flex items-center gap-3">
+            <Button
+              asChild
+              variant="ghost"
+              className="rounded-full px-6"
+            >
               <Link href={getSectionHref("#pools")}>איתור בריכה</Link>
             </Button>
-            <Button asChild>
-              <Link href={getSectionHref("#join")}>הצטרפות לאיגוד</Link>
+            <Button
+              asChild
+              className="rounded-full px-6 btn-premium"
+            >
+              <Link href={getSectionHref("#join")}>הצטרפות</Link>
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-muted-foreground hover:text-primary"
+            className="md:hidden p-2 text-foreground hover:text-primary transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
@@ -105,28 +129,32 @@ export default function Header() {
         {isMenuOpen && (
           <div
             id="mobile-menu"
-            className="md:hidden border-t py-4"
+            className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-lg border-b shadow-lg"
             role="navigation"
             aria-label="תפריט נייד"
           >
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col p-6 gap-4">
               {navItems.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="block text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+                    className="block text-lg font-medium text-foreground transition-colors hover:text-primary py-2"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item.label}
                   </Link>
                 </li>
               ))}
-              <li className="flex flex-col gap-2 pt-4 border-t">
-                <Button asChild variant="outline" className="w-full">
-                  <Link href={getSectionHref("#pools")}>איתור בריכה</Link>
+              <li className="flex flex-col gap-3 pt-4 border-t">
+                <Button asChild variant="outline" className="w-full rounded-full">
+                  <Link href={getSectionHref("#pools")} onClick={() => setIsMenuOpen(false)}>
+                    איתור בריכה
+                  </Link>
                 </Button>
-                <Button asChild className="w-full">
-                  <Link href={getSectionHref("#join")}>הצטרפות לאיגוד</Link>
+                <Button asChild className="w-full rounded-full">
+                  <Link href={getSectionHref("#join")} onClick={() => setIsMenuOpen(false)}>
+                    הצטרפות לאיגוד
+                  </Link>
                 </Button>
               </li>
             </ul>
