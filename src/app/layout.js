@@ -21,7 +21,7 @@ export const metadata = {
     siteName: "איגוד הבריכות הטיפוליות",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://itpa.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "איגוד הבריכות הטיפוליות בישראל",
