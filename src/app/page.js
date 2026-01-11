@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Header from "@/components/Header";
@@ -8,9 +9,25 @@ import PoolsIndex from "@/components/PoolsIndex";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FadeIn, FadeInStagger, FadeInStaggerItem, ScaleIn } from "@/components/FadeIn";
-import poolsData from "@/data/pools.json";
 
 export default function Home() {
+  const [pools, setPools] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchPools() {
+      try {
+        const response = await fetch("/api/pools");
+        const data = await response.json();
+        setPools(data);
+      } catch (error) {
+        console.error("Error fetching pools:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchPools();
+  }, []);
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
@@ -480,7 +497,15 @@ export default function Home() {
         </section>
 
         {/* Pools Index Section */}
-        <PoolsIndex pools={poolsData} />
+        {isLoading ? (
+          <section id="pools" className="py-24 bg-muted/50">
+            <div className="container mx-auto px-6 md:px-12 lg:px-20 text-center">
+              <p className="text-muted-foreground">טוען בריכות...</p>
+            </div>
+          </section>
+        ) : (
+          <PoolsIndex pools={pools} />
+        )}
       </main>
 
       <Footer />

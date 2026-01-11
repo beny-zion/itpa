@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": "1",
+    "fullName": "בני ציון",
+    "organization": "",
+    "email": "beniben890@gmail.com",
+    "phone": "0504123190",
+    "subject": "complaint",
+    "message": " n n n",
+    "createdAt": "2026-01-11T15:38:49.924Z",
+    "status": "new"
+  }
+]

@@ -71,6 +71,13 @@ export default function AdminPage() {
   useEffect(() => {
     fetchPools();
     fetchContacts();
+
+    // Auto-refresh contacts every 30 seconds
+    const interval = setInterval(() => {
+      fetchContacts();
+    }, 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const fetchPools = async () => {

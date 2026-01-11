@@ -1,28 +1,32 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
-
-const contactsFilePath = path.join(process.cwd(), "src", "data", "contacts.json");
-
-async function readContacts() {
-  try {
-    const data = await fs.readFile(contactsFilePath, "utf8");
-    return JSON.parse(data);
-  } catch (error) {
-    return [];
-  }
-}
-
-async function writeContacts(contacts) {
-  await fs.writeFile(contactsFilePath, JSON.stringify(contacts, null, 2), "utf8");
-}
+import { supabase } from "@/lib/supabase";
 
 // GET - fetch all contacts (for admin)
 export async function GET() {
   try {
-    const contacts = await readContacts();
+    const { data, error } = await supabase
+      .from("contacts")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    // Map to match existing format
+    const contacts = data.map((contact) => ({
+      id: String(contact.id),
+      fullName: contact.name,
+      email: contact.email,
+      phone: contact.phone,
+      message: contact.message,
+      organization: contact.organization,
+      subject: contact.subject,
+      status: contact.status,
+      createdAt: contact.created_at,
+    }));
+
     return NextResponse.json(contacts);
   } catch (error) {
+    console.error("GET contacts error:", error);
     return NextResponse.json({ error: "Failed to read contacts" }, { status: 500 });
   }
 }
@@ -31,26 +35,26 @@ export async function GET() {
 export async function POST(request) {
   try {
     const newContact = await request.json();
-    const contacts = await readContacts();
 
-    // Generate new ID and add timestamp
-    const maxId = contacts.reduce(
-      (max, contact) => Math.max(max, parseInt(contact.id) || 0),
-      0
-    );
+    const { data, error } = await supabase
+      .from("contacts")
+      .insert({
+        name: newContact.fullName,
+        email: newContact.email,
+        phone: newContact.phone || null,
+        message: newContact.message,
+        organization: newContact.organization || null,
+        subject: newContact.subject || null,
+        status: "new",
+      })
+      .select()
+      .single();
 
-    const contactEntry = {
-      id: String(maxId + 1),
-      ...newContact,
-      createdAt: new Date().toISOString(),
-      status: "new", // new, read, handled
-    };
+    if (error) throw error;
 
-    contacts.unshift(contactEntry); // Add to beginning
-    await writeContacts(contacts);
-
-    return NextResponse.json({ success: true, id: contactEntry.id }, { status: 201 });
+    return NextResponse.json({ success: true, id: String(data.id) }, { status: 201 });
   } catch (error) {
+    console.error("POST contact error:", error);
     return NextResponse.json({ error: "Failed to save contact" }, { status: 500 });
   }
 }
@@ -59,18 +63,17 @@ export async function POST(request) {
 export async function PUT(request) {
   try {
     const { id, status } = await request.json();
-    const contacts = await readContacts();
 
-    const index = contacts.findIndex((c) => c.id === id);
-    if (index === -1) {
-      return NextResponse.json({ error: "Contact not found" }, { status: 404 });
-    }
+    const { error } = await supabase
+      .from("contacts")
+      .update({ status })
+      .eq("id", parseInt(id));
 
-    contacts[index].status = status;
-    await writeContacts(contacts);
+    if (error) throw error;
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error("PUT contact error:", error);
     return NextResponse.json({ error: "Failed to update contact" }, { status: 500 });
   }
 }
@@ -85,17 +88,16 @@ export async function DELETE(request) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
     }
 
-    const contacts = await readContacts();
-    const filteredContacts = contacts.filter((c) => c.id !== id);
+    const { error } = await supabase
+      .from("contacts")
+      .delete()
+      .eq("id", parseInt(id));
 
-    if (filteredContacts.length === contacts.length) {
-      return NextResponse.json({ error: "Contact not found" }, { status: 404 });
-    }
-
-    await writeContacts(filteredContacts);
+    if (error) throw error;
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error("DELETE contact error:", error);
     return NextResponse.json({ error: "Failed to delete contact" }, { status: 500 });
   }
 }

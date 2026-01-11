@@ -131,18 +131,28 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-background/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t border-background/10 mt-8 pt-4 flex flex-col md:flex-row justify-between items-center gap-2">
           <p className="text-background/50 text-sm">
             © {new Date().getFullYear()} איגוד הבריכות הטיפוליות בישראל. כל הזכויות שמורות.
           </p>
-          <div className="flex items-center gap-6">
-            <a
-              href="mailto:office@itpa.org.il"
-              className="text-background/50 hover:text-primary transition-colors text-sm"
-            >
-              office@itpa.org.il
-            </a>
-          </div>
+          <a
+            href="mailto:office@itpa.org.il"
+            className="text-background/50 hover:text-primary transition-colors text-sm"
+          >
+            office@itpa.org.il
+          </a>
+          <a
+            href="mailto:b4123190@gmail.com"
+            className="opacity-80 hover:opacity-100 transition-opacity"
+          >
+            <Image
+              src="/bb.logo3.svg"
+              alt="BB Dev"
+              width={100}
+              height={40}
+              className="h-8 w-auto"
+            />
+          </a>
         </div>
       </div>
     </footer>

@@ -1,67 +1,138 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
+import { supabase } from "@/lib/supabase";
 
-const poolsFilePath = path.join(process.cwd(), "src", "data", "pools.json");
-
-async function readPools() {
-  const data = await fs.readFile(poolsFilePath, "utf8");
-  return JSON.parse(data);
-}
-
-async function writePools(pools) {
-  await fs.writeFile(poolsFilePath, JSON.stringify(pools, null, 2), "utf8");
-}
-
+// GET - fetch all pools
 export async function GET() {
   try {
-    const pools = await readPools();
+    const { data, error } = await supabase
+      .from("pools")
+      .select("*")
+      .order("id", { ascending: true });
+
+    if (error) throw error;
+
+    // Map to match existing format
+    const pools = data.map((pool) => ({
+      id: String(pool.id),
+      name: pool.name,
+      operator: pool.operator,
+      address: pool.address,
+      city: pool.city,
+      phone: pool.phone,
+      email: pool.email,
+      openingHours: {
+        sunday_thursday: pool.opening_hours_weekdays,
+        friday: pool.opening_hours_friday,
+      },
+      treatments: pool.treatments || [],
+      isAccessible: pool.is_accessible,
+    }));
+
     return NextResponse.json(pools);
   } catch (error) {
+    console.error("GET pools error:", error);
     return NextResponse.json({ error: "Failed to read pools" }, { status: 500 });
   }
 }
 
+// POST - create new pool
 export async function POST(request) {
   try {
     const newPool = await request.json();
-    const pools = await readPools();
 
-    // Generate new ID
-    const maxId = pools.reduce(
-      (max, pool) => Math.max(max, parseInt(pool.id)),
-      0
-    );
-    newPool.id = String(maxId + 1);
+    const { data, error } = await supabase
+      .from("pools")
+      .insert({
+        name: newPool.name,
+        operator: newPool.operator,
+        address: newPool.address,
+        city: newPool.city,
+        phone: newPool.phone,
+        email: newPool.email,
+        opening_hours_weekdays: newPool.openingHours.sunday_thursday,
+        opening_hours_friday: newPool.openingHours.friday,
+        treatments: newPool.treatments || [],
+        is_accessible: newPool.isAccessible || false,
+      })
+      .select()
+      .single();
 
-    pools.push(newPool);
-    await writePools(pools);
+    if (error) throw error;
 
-    return NextResponse.json(newPool, { status: 201 });
+    // Return in the same format as the input
+    const createdPool = {
+      id: String(data.id),
+      name: data.name,
+      operator: data.operator,
+      address: data.address,
+      city: data.city,
+      phone: data.phone,
+      email: data.email,
+      openingHours: {
+        sunday_thursday: data.opening_hours_weekdays,
+        friday: data.opening_hours_friday,
+      },
+      treatments: data.treatments || [],
+      isAccessible: data.is_accessible,
+    };
+
+    return NextResponse.json(createdPool, { status: 201 });
   } catch (error) {
+    console.error("POST pool error:", error);
     return NextResponse.json({ error: "Failed to create pool" }, { status: 500 });
   }
 }
 
+// PUT - update pool
 export async function PUT(request) {
   try {
     const updatedPool = await request.json();
-    const pools = await readPools();
 
-    const index = pools.findIndex((p) => p.id === updatedPool.id);
-    if (index === -1) {
-      return NextResponse.json({ error: "Pool not found" }, { status: 404 });
-    }
+    const { data, error } = await supabase
+      .from("pools")
+      .update({
+        name: updatedPool.name,
+        operator: updatedPool.operator,
+        address: updatedPool.address,
+        city: updatedPool.city,
+        phone: updatedPool.phone,
+        email: updatedPool.email,
+        opening_hours_weekdays: updatedPool.openingHours.sunday_thursday,
+        opening_hours_friday: updatedPool.openingHours.friday,
+        treatments: updatedPool.treatments || [],
+        is_accessible: updatedPool.isAccessible || false,
+      })
+      .eq("id", parseInt(updatedPool.id))
+      .select()
+      .single();
 
-    pools[index] = updatedPool;
-    await writePools(pools);
+    if (error) throw error;
 
-    return NextResponse.json(updatedPool);
+    // Return in the same format
+    const pool = {
+      id: String(data.id),
+      name: data.name,
+      operator: data.operator,
+      address: data.address,
+      city: data.city,
+      phone: data.phone,
+      email: data.email,
+      openingHours: {
+        sunday_thursday: data.opening_hours_weekdays,
+        friday: data.opening_hours_friday,
+      },
+      treatments: data.treatments || [],
+      isAccessible: data.is_accessible,
+    };
+
+    return NextResponse.json(pool);
   } catch (error) {
+    console.error("PUT pool error:", error);
     return NextResponse.json({ error: "Failed to update pool" }, { status: 500 });
   }
 }
 
+// DELETE - delete pool
 export async function DELETE(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -71,17 +142,16 @@ export async function DELETE(request) {
       return NextResponse.json({ error: "ID is required" }, { status: 400 });
     }
 
-    const pools = await readPools();
-    const filteredPools = pools.filter((p) => p.id !== id);
+    const { error } = await supabase
+      .from("pools")
+      .delete()
+      .eq("id", parseInt(id));
 
-    if (filteredPools.length === pools.length) {
-      return NextResponse.json({ error: "Pool not found" }, { status: 404 });
-    }
-
-    await writePools(filteredPools);
+    if (error) throw error;
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error("DELETE pool error:", error);
     return NextResponse.json({ error: "Failed to delete pool" }, { status: 500 });
   }
 }
