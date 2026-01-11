@@ -21,7 +21,7 @@ export const metadata = {
     siteName: "איגוד הבריכות הטיפוליות",
     images: [
       {
-        url: "https://itpa.vercel.app/og-image.png",
+        url: "https://itpa.vercel.app/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "איגוד הבריכות הטיפוליות בישראל",
@@ -34,7 +34,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "איגוד הבריכות הטיפוליות בישראל",
     description: "הגוף המקצועי המייצג את תחום ההידרותרפיה בישראל.",
-    images: ["/og-image.png"],
+    images: ["/og-image.jpg"],
   },
 };
 
