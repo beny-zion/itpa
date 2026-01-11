@@ -17,11 +17,11 @@ export const metadata = {
   openGraph: {
     title: "איגוד הבריכות הטיפוליות בישראל",
     description: "מובילים את תחום הטיפול במים בישראל עם סטנדרטים מקצועיים גבוהים.",
-    url: "https://itpa.vercel.app/",
+    url: "https://itpa.vercel.app",
     siteName: "איגוד הבריכות הטיפוליות",
     images: [
       {
-        url: "https://itpa.vercel.app/og-image.jpg",
+        url: "https://itpa.vercel.app/og-image2.jpg",
         width: 1200,
         height: 630,
         alt: "איגוד הבריכות הטיפוליות בישראל",
