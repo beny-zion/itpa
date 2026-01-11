@@ -140,14 +140,15 @@ html[dir="rtl"] {
 /* Skip to main content link for accessibility */
 .skip-link {
   position: absolute;
-  top: -40px;
-  left: 0;
+  top: -100px;
+  right: 0;
   background: var(--primary);
   color: var(--primary-foreground);
-  padding: 8px 16px;
-  z-index: 100;
+  padding: 12px 24px;
+  z-index: 9999;
   transition: top 0.3s;
-  border-radius: 0 0 8px 0;
+  border-radius: 0 0 0 8px;
+  font-weight: 500;
 }
 
 .skip-link:focus {

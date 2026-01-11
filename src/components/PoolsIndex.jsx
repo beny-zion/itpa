@@ -127,7 +127,10 @@ export default function PoolsIndex({ pools }) {
 
         {/* Pools Grid */}
         {filteredPools.length > 0 ? (
-          <FadeInStagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <FadeInStagger
+            key={`${searchTerm}-${selectedCity}-${accessibleOnly}`}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {filteredPools.map((pool) => (
               <FadeInStaggerItem key={pool.id}>
                 <Card className="h-full card-hover border-0 shadow-sm bg-white">
