@@ -84,7 +84,7 @@ export default function AdminPage() {
     try {
       const response = await fetch("/api/pools");
       const data = await response.json();
-      setPools(data);
+      setPools(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching pools:", error);
     } finally {
@@ -96,7 +96,7 @@ export default function AdminPage() {
     try {
       const response = await fetch("/api/contacts");
       const data = await response.json();
-      setContacts(data);
+      setContacts(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching contacts:", error);
     }

@@ -19,7 +19,7 @@ export default function Home() {
       try {
         const response = await fetch("/api/pools");
         const data = await response.json();
-        setPools(data);
+        setPools(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching pools:", error);
       } finally {

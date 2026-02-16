@@ -19,13 +19,15 @@ export default function PoolsIndex({ pools }) {
   const [selectedCity, setSelectedCity] = useState("all");
   const [accessibleOnly, setAccessibleOnly] = useState(false);
 
+  const safePools = Array.isArray(pools) ? pools : [];
+
   const cities = useMemo(() => {
-    const uniqueCities = [...new Set(pools.map((pool) => pool.city))];
+    const uniqueCities = [...new Set(safePools.map((pool) => pool.city))];
     return uniqueCities.sort();
-  }, [pools]);
+  }, [safePools]);
 
   const filteredPools = useMemo(() => {
-    return pools.filter((pool) => {
+    return safePools.filter((pool) => {
       const matchesSearch =
         pool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         pool.operator.toLowerCase().includes(searchTerm.toLowerCase()) ||
