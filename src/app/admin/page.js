@@ -27,15 +27,11 @@ import {
 
 const emptyPool = {
   name: "",
-  operator: "",
   address: "",
   city: "",
   phone: "",
   email: "",
-  openingHours: {
-    sunday_thursday: "",
-    friday: "",
-  },
+  website: "",
   treatments: [],
   isAccessible: false,
 };
@@ -171,18 +167,7 @@ export default function AdminPage() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name.startsWith("openingHours.")) {
-      const key = name.split(".")[1];
-      setFormData((prev) => ({
-        ...prev,
-        openingHours: {
-          ...prev.openingHours,
-          [key]: value,
-        },
-      }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleAccessibleChange = (checked) => {
@@ -313,9 +298,9 @@ export default function AdminPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>שם הבריכה</TableHead>
-                    <TableHead>עמותה מפעילה</TableHead>
                     <TableHead>עיר</TableHead>
                     <TableHead>טלפון</TableHead>
+                    <TableHead>אתר</TableHead>
                     <TableHead>נגישות</TableHead>
                     <TableHead>פעולות</TableHead>
                   </TableRow>
@@ -324,10 +309,18 @@ export default function AdminPage() {
                   {pools.map((pool) => (
                     <TableRow key={pool.id}>
                       <TableCell className="font-medium">{pool.name}</TableCell>
-                      <TableCell>{pool.operator}</TableCell>
                       <TableCell>{pool.city}</TableCell>
                       <TableCell dir="ltr" className="text-right">
                         {pool.phone}
+                      </TableCell>
+                      <TableCell>
+                        {pool.website ? (
+                          <a href={pool.website.startsWith("http") ? pool.website : `https://${pool.website}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline text-sm">
+                            {pool.website}
+                          </a>
+                        ) : (
+                          <span className="text-muted-foreground">-</span>
+                        )}
                       </TableCell>
                       <TableCell>
                         {pool.isAccessible ? (
@@ -542,30 +535,6 @@ export default function AdminPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="operator">עמותה מפעילה *</Label>
-                <Input
-                  id="operator"
-                  name="operator"
-                  value={formData.operator}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="address">כתובת *</Label>
-                <Input
-                  id="address"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
                 <Label htmlFor="city">עיר *</Label>
                 <Input
                   id="city"
@@ -575,6 +544,17 @@ export default function AdminPage() {
                   required
                 />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="address">כתובת *</Label>
+              <Input
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                required
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -604,34 +584,16 @@ export default function AdminPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="openingHours.sunday_thursday">
-                  שעות פעילות א׳-ה׳ *
-                </Label>
-                <Input
-                  id="openingHours.sunday_thursday"
-                  name="openingHours.sunday_thursday"
-                  value={formData.openingHours.sunday_thursday}
-                  onChange={handleInputChange}
-                  placeholder="08:00-20:00"
-                  required
-                  dir="ltr"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="openingHours.friday">שעות פעילות ו׳ *</Label>
-                <Input
-                  id="openingHours.friday"
-                  name="openingHours.friday"
-                  value={formData.openingHours.friday}
-                  onChange={handleInputChange}
-                  placeholder="08:00-13:00"
-                  required
-                  dir="ltr"
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="website">כתובת אתר</Label>
+              <Input
+                id="website"
+                name="website"
+                value={formData.website}
+                onChange={handleInputChange}
+                placeholder="www.example.co.il"
+                dir="ltr"
+              />
             </div>
 
             <div className="space-y-2">

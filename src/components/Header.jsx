@@ -29,7 +29,6 @@ export default function Header() {
     { href: getSectionHref("#about"), label: "אודות" },
     { href: getSectionHref("#goals"), label: "מטרות" },
     { href: getSectionHref("#activities"), label: "פעילות" },
-    { href: getSectionHref("#committees"), label: "ועדות" },
     { href: getSectionHref("#pools"), label: "בריכות" },
     { href: "/contact", label: "צור קשר" },
   ];

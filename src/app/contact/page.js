@@ -242,10 +242,10 @@ export default function ContactPage() {
                       <div>
                         <p className="font-medium">דוא״ל</p>
                         <a
-                          href="mailto:office@itpa.org.il"
+                          href="mailto:office@itpa.org"
                           className="text-primary hover:underline"
                         >
-                          office@itpa.org.il
+                          office@itpa.org
                         </a>
                       </div>
                     </div>
@@ -262,7 +262,7 @@ export default function ContactPage() {
                       <div>
                         <p className="font-medium">כתובת</p>
                         <p className="text-muted-foreground">
-                          רחוב הבריכה 1, תל אביב
+                          אליעזר בן הורקנוס 8, אשדוד
                         </p>
                       </div>
                     </div>

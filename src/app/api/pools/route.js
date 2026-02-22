@@ -15,15 +15,11 @@ export async function GET() {
     const pools = data.map((pool) => ({
       id: String(pool.id),
       name: pool.name,
-      operator: pool.operator,
       address: pool.address,
       city: pool.city,
       phone: pool.phone,
       email: pool.email,
-      openingHours: {
-        sunday_thursday: pool.opening_hours_weekdays,
-        friday: pool.opening_hours_friday,
-      },
+      website: pool.website || "",
       treatments: pool.treatments || [],
       isAccessible: pool.is_accessible,
     }));
@@ -44,13 +40,11 @@ export async function POST(request) {
       .from("pools")
       .insert({
         name: newPool.name,
-        operator: newPool.operator,
         address: newPool.address,
         city: newPool.city,
         phone: newPool.phone,
         email: newPool.email,
-        opening_hours_weekdays: newPool.openingHours.sunday_thursday,
-        opening_hours_friday: newPool.openingHours.friday,
+        website: newPool.website || "",
         treatments: newPool.treatments || [],
         is_accessible: newPool.isAccessible || false,
       })
@@ -59,19 +53,14 @@ export async function POST(request) {
 
     if (error) throw error;
 
-    // Return in the same format as the input
     const createdPool = {
       id: String(data.id),
       name: data.name,
-      operator: data.operator,
       address: data.address,
       city: data.city,
       phone: data.phone,
       email: data.email,
-      openingHours: {
-        sunday_thursday: data.opening_hours_weekdays,
-        friday: data.opening_hours_friday,
-      },
+      website: data.website || "",
       treatments: data.treatments || [],
       isAccessible: data.is_accessible,
     };
@@ -92,13 +81,11 @@ export async function PUT(request) {
       .from("pools")
       .update({
         name: updatedPool.name,
-        operator: updatedPool.operator,
         address: updatedPool.address,
         city: updatedPool.city,
         phone: updatedPool.phone,
         email: updatedPool.email,
-        opening_hours_weekdays: updatedPool.openingHours.sunday_thursday,
-        opening_hours_friday: updatedPool.openingHours.friday,
+        website: updatedPool.website || "",
         treatments: updatedPool.treatments || [],
         is_accessible: updatedPool.isAccessible || false,
       })
@@ -108,19 +95,14 @@ export async function PUT(request) {
 
     if (error) throw error;
 
-    // Return in the same format
     const pool = {
       id: String(data.id),
       name: data.name,
-      operator: data.operator,
       address: data.address,
       city: data.city,
       phone: data.phone,
       email: data.email,
-      openingHours: {
-        sunday_thursday: data.opening_hours_weekdays,
-        friday: data.opening_hours_friday,
-      },
+      website: data.website || "",
       treatments: data.treatments || [],
       isAccessible: data.is_accessible,
     };

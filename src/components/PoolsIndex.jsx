@@ -30,7 +30,7 @@ export default function PoolsIndex({ pools }) {
     return safePools.filter((pool) => {
       const matchesSearch =
         pool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        pool.operator.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        pool.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
         pool.treatments.some((t) =>
           t.toLowerCase().includes(searchTerm.toLowerCase())
         );
@@ -75,14 +75,14 @@ export default function PoolsIndex({ pools }) {
                 <Input
                   id="search"
                   type="search"
-                  placeholder="שם בריכה, עמותה או סוג טיפול..."
+                  placeholder="שם בריכה, עיר או סוג טיפול..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   aria-describedby="search-description"
                   className="rounded-xl h-12"
                 />
                 <span id="search-description" className="sr-only">
-                  חפשו לפי שם בריכה, שם העמותה המפעילה או סוג טיפול
+                  חפשו לפי שם בריכה, עיר או סוג טיפול
                 </span>
               </div>
 
@@ -156,7 +156,6 @@ export default function PoolsIndex({ pools }) {
                         </Badge>
                       )}
                     </div>
-                    <CardDescription className="text-base">{pool.operator}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <dl className="space-y-4 text-sm">
@@ -208,18 +207,26 @@ export default function PoolsIndex({ pools }) {
                         </div>
                       </div>
 
-                      <div className="flex items-start gap-3">
-                        <svg className="h-5 w-5 text-primary shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <div>
-                          <dt className="sr-only">שעות פעילות</dt>
-                          <dd className="text-muted-foreground">
-                            <div>א׳-ה׳: {pool.openingHours.sunday_thursday}</div>
-                            <div>ו׳: {pool.openingHours.friday}</div>
-                          </dd>
+                      {pool.website && (
+                        <div className="flex items-start gap-3">
+                          <svg className="h-5 w-5 text-primary shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                          </svg>
+                          <div>
+                            <dt className="sr-only">אתר</dt>
+                            <dd>
+                              <a
+                                href={pool.website.startsWith("http") ? pool.website : `https://${pool.website}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline break-all"
+                              >
+                                {pool.website}
+                              </a>
+                            </dd>
+                          </div>
                         </div>
-                      </div>
+                      )}
 
                       <div className="pt-2">
                         <dt className="font-medium text-muted-foreground mb-2">

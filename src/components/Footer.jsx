@@ -18,7 +18,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-background/70 leading-relaxed">
-              הגוף המקצועי המייצג את תחום ההידרותרפיה בישראל, הפועל לקידום סטנדרטים, רגולציה אחראית, איכות טיפול ובטיחות.
+              הגוף הארצי המאגד את הבריכות והמוסדות לטיפול במים בישראל, ופועל לחיזוק התשתית המוסדית של התחום.
             </p>
           </div>
 
@@ -49,14 +49,6 @@ export default function Footer() {
                     className="text-background/70 hover:text-primary transition-colors"
                   >
                     תחומי פעילות
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#committees"
-                    className="text-background/70 hover:text-primary transition-colors"
-                  >
-                    ועדות מקצועיות
                   </Link>
                 </li>
               </ul>
@@ -136,10 +128,10 @@ export default function Footer() {
             © {new Date().getFullYear()} איגוד הבריכות הטיפוליות בישראל. כל הזכויות שמורות.
           </p>
           <a
-            href="mailto:office@itpa.org.il"
+            href="mailto:office@itpa.org"
             className="text-background/50 hover:text-primary transition-colors text-sm"
           >
-            office@itpa.org.il
+            office@itpa.org
           </a>
           <a
             href="mailto:b4123190@gmail.com"

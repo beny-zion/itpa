@@ -1,117 +1,222 @@
 [
   {
     "id": "1",
-    "name": "מרכז בועות",
-    "operator": "בועיות - המרכז הישראלי למצוינות",
-    "address": "רחוב המים 10",
-    "city": "בני ברק",
-    "phone": "03-1234567",
-    "email": "office@buot.org.il",
-    "openingHours": {
-      "sunday_thursday": "08:00-20:00",
-      "friday": "08:00-13:00"
-    },
-    "treatments": [
-      "הידרותרפיה לילדים",
-      "שיקום נוירולוגי",
-      "טיפול במים לנשים בהריון"
-    ],
+    "name": "מרכז מים הבריכה באצטדיון טדי ירושלים",
+    "city": "ירושלים",
+    "address": "אילון 1",
+    "phone": "026787277",
+    "email": "Yossi.rivlin@gmail.com",
+    "website": "www.mayim.co.il",
+    "treatments": ["הידרותרפיה", "התעמלות במים", "שחיית תינוקות", "שחייה"],
     "isAccessible": true
   },
   {
     "id": "2",
-    "name": "בריכת השרון",
-    "operator": "עמותת בריאות במים",
-    "address": "רחוב הגפן 25",
-    "city": "רעננה",
-    "phone": "09-7654321",
-    "email": "info@sharon-pool.co.il",
-    "openingHours": {
-      "sunday_thursday": "07:00-21:00",
-      "friday": "07:00-14:00"
-    },
-    "treatments": [
-      "הידרותרפיה למבוגרים",
-      "שיקום אורתופדי",
-      "אקווה יוגה"
-    ],
+    "name": "תנועה במים",
+    "city": "ירושלים",
+    "address": "אבא הלל סילבר 3",
+    "phone": "02-9904005",
+    "email": "Tnuabm@gmail.com",
+    "website": "",
+    "treatments": ["הידרותרפיה", "שחייה טיפולית"],
     "isAccessible": true
   },
   {
     "id": "3",
-    "name": "מרכז המים הטיפולי",
-    "operator": "קרן שיקום ובריאות",
-    "address": "שדרות בן גוריון 50",
-    "city": "תל אביב",
-    "phone": "03-9876543",
-    "email": "contact@water-therapy.co.il",
-    "openingHours": {
-      "sunday_thursday": "06:00-22:00",
-      "friday": "06:00-15:00"
-    },
-    "treatments": [
-      "הידרותרפיה לילדים",
-      "שיקום נוירולוגי",
-      "שיקום לאחר ניתוח",
-      "טיפול בכאב כרוני"
-    ],
-    "isAccessible": true
-  },
-  {
-    "id": "4",
-    "name": "בריכת הגליל",
-    "operator": "מרכז הגליל לרפואה משלימה",
-    "address": "רחוב הארזים 8",
-    "city": "כרמיאל",
-    "phone": "04-1234567",
-    "email": "galil@therapy-pool.co.il",
-    "openingHours": {
-      "sunday_thursday": "08:00-19:00",
-      "friday": "08:00-12:00"
-    },
-    "treatments": [
-      "הידרותרפיה למבוגרים",
-      "וואטסו",
-      "טיפול בפיברומיאלגיה"
-    ],
+    "name": "ענת",
+    "city": "הוד השרון",
+    "address": "הוד השרון",
+    "phone": "0502004637",
+    "email": "anathydro@gmail.com",
+    "website": "",
+    "treatments": ["הידרותרפיה"],
     "isAccessible": false
   },
   {
-    "id": "5",
-    "name": "מרכז הנגב להידרותרפיה",
-    "operator": "עמותת בריאות הנגב",
-    "address": "רחוב התמר 15",
-    "city": "באר שבע",
-    "phone": "08-6543210",
-    "email": "negev@hydro.org.il",
-    "openingHours": {
-      "sunday_thursday": "07:30-20:00",
-      "friday": "07:30-13:00"
-    },
-    "treatments": [
-      "הידרותרפיה לילדים",
-      "שיקום אורתופדי",
-      "טיפול במים לנשים בהריון"
-    ],
+    "id": "4",
+    "name": "ווטרדנס בכפר הירוק",
+    "city": "רמת השרון",
+    "address": "הכפר הירוק",
+    "phone": "037943334",
+    "email": "Info@waterdance.co.il",
+    "website": "www.waterdance.co.il",
+    "treatments": ["הידרותרפיה", "טיפולי מים הוליסטיים", "שחיית פעוטות", "שיעורי שחייה", "שחייה טיפולית", "קבוצות התעמלות במים"],
     "isAccessible": true
   },
   {
-    "name": "מרכז בועות ",
-    "operator": "בועות",
-    "address": "רובע ב'",
+    "id": "5",
+    "name": "המרכז ההידרותרפי בית איזי שפירא",
+    "city": "רעננה",
+    "address": "רחוב איזי שפירא 1",
+    "phone": "09-7701205",
+    "email": "hydrotherapy@beitissie.org.il",
+    "website": "https://beitissie.org.il/",
+    "treatments": ["טיפולי הידרותרפיה פרטניים וקבוצתיים", "ווטסו", "ג'אהרה", "פעילות תינוקות", "לימודי שחייה"],
+    "isAccessible": true
+  },
+  {
+    "id": "6",
+    "name": "הבריכה הטיפולית של ענת דוד",
+    "city": "הזורעים",
+    "address": "ביתניה 21",
+    "phone": "0528525616",
+    "email": "anatdavidcare@gmail.com",
+    "website": "",
+    "treatments": ["הידרותרפיה", "וואטסו", "שכירת מתחם הבריכה", "שחיית תינוקות", "חוגי שחייה", "התעמלות מים", "עיסויים"],
+    "isAccessible": true
+  },
+  {
+    "id": "7",
+    "name": "עוד טיפה",
+    "city": "שתולה",
+    "address": "מים רבים 26",
+    "phone": "0543286986",
+    "email": "danhadar.k@gmail.com",
+    "website": "",
+    "treatments": ["הידרותרפיה", "שחיית תינוקות", "שחייה רגשית", "וואטסו"],
+    "isAccessible": true
+  },
+  {
+    "id": "8",
+    "name": "הבריכה של נאוה",
+    "city": "רמת ישי",
+    "address": "האלון 69",
+    "phone": "054-7271631",
+    "email": "navazak21@gmail.com",
+    "website": "http://navapool.zak-malkin.com",
+    "treatments": ["תינוקות ופעוטים", "חוגי שחייה", "טיפולים ע\"י המושלם של כללית"],
+    "isAccessible": true
+  },
+  {
+    "id": "9",
+    "name": "לגעת במים בע\"מ",
+    "city": "מבוא חורון",
+    "address": "רח' התעשיה",
+    "phone": "0507645604",
+    "email": "lagatbamaim@gmail.com",
+    "website": "www.lbm.co.il",
+    "treatments": ["הידרותרפיה", "שחייה טיפולית", "ווטסו", "ג'אהרה", "ווטרדנס", "חוגי שחייה", "שחיית פעוטות", "התעמלות במים", "סדנאות"],
+    "isAccessible": true
+  },
+  {
+    "id": "10",
+    "name": "בראשית - הבריכה הטיפולית בבקעת הירדן",
+    "city": "מושב נעמ\"ה",
+    "address": "מושב נעמ\"ה, צפון ים המלח",
+    "phone": "0523749613",
+    "email": "elifarago1@gmail.com",
+    "website": "",
+    "treatments": ["הידרותרפיה", "טיפולי חוויה", "קורס שחייה", "חוג שחייה", "הפעלת פעוטות", "התעמלות במים"],
+    "isAccessible": true
+  },
+  {
+    "id": "11",
+    "name": "בריכת אלישע ירושלים",
+    "city": "ירושלים",
+    "address": "דרך בית לחם 52",
+    "phone": "02-5095577",
+    "email": "elishasport1@gmail.com",
+    "website": "www.elishamaim.co.il",
+    "treatments": ["הידרותרפיה", "שחייה טיפולית"],
+    "isAccessible": true
+  },
+  {
+    "id": "12",
+    "name": "בריכת אלישע הוד השרון",
+    "city": "הוד השרון",
+    "address": "רח' ז'בוטינסקי",
+    "phone": "09-9537979",
+    "email": "elishasport1@gmail.com",
+    "website": "www.elishamaim.co.il",
+    "treatments": ["שחייה טיפולית", "הידרותרפיה"],
+    "isAccessible": true
+  },
+  {
+    "id": "13",
+    "name": "מרכז הידרותרפי מבואות החרמון",
+    "city": "צומת כח",
+    "address": "צומת כח, ד.נ. גליל עליון",
+    "phone": "04-6542006",
+    "email": "mvhrpool@mvhr.org.il",
+    "website": "",
+    "treatments": ["הידרותרפיה", "פיזיותרפיה", "פרא רפואיים"],
+    "isAccessible": true
+  },
+  {
+    "id": "14",
+    "name": "מרכז בועות - אשדוד",
     "city": "אשדוד",
-    "phone": "0504141414",
-    "email": "bcdif@gmail.com",
-    "openingHours": {
-      "sunday_thursday": "09:00-15:00",
-      "friday": "סגור"
-    },
-    "treatments": [
-      "הידרוטרפיה",
-      "שיקום",
-      "שחיה חופשית"
-    ],
-    "isAccessible": false,
-    "id": "6"
+    "address": "ז'בוטינסקי 84",
+    "phone": "088657552",
+    "email": "buot@buot.org.il",
+    "website": "buot.org.il",
+    "treatments": ["הידרותרפיה", "שחייה טיפולית", "וואטסו", "באד ראגז'"],
+    "isAccessible": true
+  },
+  {
+    "id": "15",
+    "name": "מרכז בועות - יד בנימין",
+    "city": "נחל שורק",
+    "address": "האשל 19, יד בנימין",
+    "phone": "08-9568500",
+    "email": "yad.b@buot.org.il",
+    "website": "buot.org.il",
+    "treatments": ["הידרותרפיה", "שחייה טיפולית", "שחייה שיקומית", "וואטסו", "הלוויק", "באד ראגז'"],
+    "isAccessible": true
+  },
+  {
+    "id": "16",
+    "name": "מרכז בועות - צפת",
+    "city": "צפת",
+    "address": "דרך השוקלד",
+    "phone": "048336220",
+    "email": "zefat@buot.org.il",
+    "website": "buot.org.il",
+    "treatments": ["הידרותרפיה", "שחייה שיקומית טיפולית", "וואטסו", "באד ראגז'"],
+    "isAccessible": true
+  },
+  {
+    "id": "17",
+    "name": "HT Water and more",
+    "city": "רמת גן",
+    "address": "אלוף דוד 185",
+    "phone": "0523004620",
+    "email": "Ht.waterandmore@aquatherapy.co.il",
+    "website": "https://aquatherapy.co.il/",
+    "treatments": ["הידרותרפיה", "שחייה", "שחייה טיפולית", "שחייה שיקומית"],
+    "isAccessible": true
+  },
+  {
+    "id": "18",
+    "name": "הבריכה הטיפולית בעמק יזרעאל",
+    "city": "עמק יזרעאל",
+    "address": "עמותת ותיקי עמק יזרעאל, ת.ד. 3222 עפולה",
+    "phone": "04-6420195",
+    "email": "pool@eyz.org.il",
+    "website": "https://vatikim.emekyizrael.org.il",
+    "treatments": ["אורטופדיים", "נוירולוגיים", "התפתחותיים", "שחיית פעוטות", "טיפולי הנאה"],
+    "isAccessible": true
+  },
+  {
+    "id": "19",
+    "name": "רינאן ספורט",
+    "city": "באקה אל-גרביה",
+    "address": "באר אלסמאא 1",
+    "phone": "046769393",
+    "email": "Renansportplace@gmail.com",
+    "website": "",
+    "treatments": ["טיפולי הידרותרפיה בהסכם עם כל קופות החולים", "ילדים ומבוגרים"],
+    "isAccessible": true
+  },
+  {
+    "id": "20",
+    "name": "עדי ירושלים",
+    "city": "ירושלים",
+    "address": "הרקמה 9",
+    "phone": "025011015",
+    "email": "pool.j@adi-il.org",
+    "website": "",
+    "treatments": ["טיפולי הידרותרפיה", "טיפולים מוטוריים", "הידרותרפיה למונשמים", "התעמלות במים לנשים וגברים"],
+    "isAccessible": true
   }
 ]
