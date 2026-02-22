@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import * as XLSX from "xlsx-js-style";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -62,6 +63,11 @@ export default function AdminPage() {
   const [formData, setFormData] = useState(emptyPool);
   const [treatmentsInput, setTreatmentsInput] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
+  const [importPreview, setImportPreview] = useState([]);
+  const [importError, setImportError] = useState("");
+  const [isImporting, setIsImporting] = useState(false);
+  const fileInputRef = useRef(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -221,6 +227,228 @@ export default function AdminPage() {
     }
   };
 
+  // Column name mapping (Hebrew → English)
+  const columnMap = {
+    "שם הבריכה": "name",
+    "שם": "name",
+    "name": "name",
+    "עיר": "city",
+    "city": "city",
+    "כתובת": "address",
+    "address": "address",
+    "טלפון": "phone",
+    "phone": "phone",
+    "מייל": "email",
+    "אימייל": "email",
+    "דואל": "email",
+    "email": "email",
+    "אתר": "website",
+    "אתר אינטרנט": "website",
+    "website": "website",
+    "טיפולים": "treatments",
+    "סוגי טיפולים": "treatments",
+    "treatments": "treatments",
+    "נגישות": "isAccessible",
+    "נגיש": "isAccessible",
+    "is_accessible": "isAccessible",
+    "isaccessible": "isAccessible",
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setImportError("");
+    setImportPreview([]);
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const data = new Uint8Array(evt.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+
+        if (rows.length === 0) {
+          setImportError("הקובץ ריק — לא נמצאו שורות נתונים.");
+          return;
+        }
+
+        // Map columns
+        const mapped = rows.map((row) => {
+          const pool = {};
+          for (const [key, value] of Object.entries(row)) {
+            const normalizedKey = key.trim().toLowerCase();
+            // Find matching column
+            const mappedField = columnMap[key.trim()] || columnMap[normalizedKey];
+            if (mappedField) {
+              pool[mappedField] = String(value).trim();
+            }
+          }
+
+          // Parse treatments: split by comma
+          if (pool.treatments) {
+            pool.treatments = pool.treatments
+              .split(",")
+              .map((t) => t.trim())
+              .filter((t) => t);
+          } else {
+            pool.treatments = [];
+          }
+
+          // Parse accessibility
+          const accVal = (pool.isAccessible || "").toLowerCase();
+          pool.isAccessible = ["כן", "yes", "true", "1", "v", "✓"].includes(accVal);
+
+          return pool;
+        });
+
+        // Filter out rows that have no name (probably empty rows)
+        const validPools = mapped.filter((p) => p.name);
+
+        if (validPools.length === 0) {
+          setImportError(
+            'לא זוהו עמודות מתאימות. וודאו שהשורה הראשונה מכילה כותרות כמו: "שם הבריכה", "עיר", "כתובת" וכו\'.'
+          );
+          return;
+        }
+
+        setImportPreview(validPools);
+      } catch (err) {
+        console.error("Parse error:", err);
+        setImportError("שגיאה בקריאת הקובץ. וודאו שמדובר בקובץ אקסל (.xlsx) או CSV תקין.");
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  };
+
+  const handleImportConfirm = async () => {
+    if (importPreview.length === 0) return;
+
+    setIsImporting(true);
+    try {
+      const response = await fetch("/api/pools/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pools: importPreview }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        await fetchPools();
+        setIsImportDialogOpen(false);
+        setImportPreview([]);
+        setImportError("");
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        alert(`${result.message}`);
+      } else {
+        setImportError(result.error || "שגיאה בייבוא");
+      }
+    } catch (error) {
+      console.error("Import error:", error);
+      setImportError("שגיאה בייבוא הנתונים");
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
+  const openImportDialog = () => {
+    setImportPreview([]);
+    setImportError("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    setIsImportDialogOpen(true);
+  };
+
+  const handleExport = () => {
+    if (pools.length === 0) return;
+
+    const headerStyle = {
+      font: { bold: true, color: { rgb: "FFFFFF" }, sz: 12 },
+      fill: { fgColor: { rgb: "2563EB" } },
+      alignment: { horizontal: "right", vertical: "center" },
+      border: {
+        bottom: { style: "thin", color: { rgb: "1E40AF" } },
+      },
+    };
+
+    const headers = [
+      "שם הבריכה",
+      "עיר",
+      "כתובת",
+      "טלפון",
+      "מייל",
+      "אתר",
+      "טיפולים",
+      "נגישות",
+    ];
+
+    const rows = pools.map((pool) => [
+      pool.name,
+      pool.city,
+      pool.address,
+      pool.phone,
+      pool.email,
+      pool.website || "",
+      (pool.treatments || []).join(", "),
+      pool.isAccessible ? "כן" : "לא",
+    ]);
+
+    const wsData = [headers, ...rows];
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+    // Style header row
+    headers.forEach((_, colIdx) => {
+      const cellRef = XLSX.utils.encode_cell({ r: 0, c: colIdx });
+      if (ws[cellRef]) {
+        ws[cellRef].s = headerStyle;
+      }
+    });
+
+    // Style data rows with alternating colors and borders
+    const dataStyle = {
+      alignment: { horizontal: "right", vertical: "center", wrapText: true },
+      border: {
+        bottom: { style: "thin", color: { rgb: "E5E7EB" } },
+      },
+    };
+    const altDataStyle = {
+      ...dataStyle,
+      fill: { fgColor: { rgb: "F0F7FF" } },
+    };
+
+    for (let r = 1; r <= rows.length; r++) {
+      for (let c = 0; c < headers.length; c++) {
+        const cellRef = XLSX.utils.encode_cell({ r, c });
+        if (ws[cellRef]) {
+          ws[cellRef].s = r % 2 === 0 ? altDataStyle : dataStyle;
+        }
+      }
+    }
+
+    // Set column widths
+    ws["!cols"] = [
+      { wch: 35 }, // שם הבריכה
+      { wch: 15 }, // עיר
+      { wch: 25 }, // כתובת
+      { wch: 15 }, // טלפון
+      { wch: 28 }, // מייל
+      { wch: 25 }, // אתר
+      { wch: 45 }, // טיפולים
+      { wch: 8 },  // נגישות
+    ];
+
+    // Set row height for header
+    ws["!rows"] = [{ hpx: 30 }];
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "בריכות טיפוליות");
+
+    const today = new Date().toISOString().slice(0, 10);
+    XLSX.writeFile(wb, `בריכות_טיפוליות_${today}.xlsx`);
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -275,22 +503,56 @@ export default function AdminPage() {
                 צפייה, הוספה ועריכה של בריכות טיפוליות
               </CardDescription>
             </div>
-            <Button onClick={openAddDialog}>
-              <svg
-                className="h-4 w-4 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-              הוספת בריכה
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={handleExport} disabled={pools.length === 0}>
+                <svg
+                  className="h-4 w-4 ml-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l4 4m0 0l4-4m-4 4V4"
+                  />
+                </svg>
+                ייצוא לאקסל
+              </Button>
+              <Button variant="outline" onClick={openImportDialog}>
+                <svg
+                  className="h-4 w-4 ml-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                  />
+                </svg>
+                ייבוא מאקסל
+              </Button>
+              <Button onClick={openAddDialog}>
+                <svg
+                  className="h-4 w-4 ml-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                הוספת בריכה
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
@@ -633,6 +895,144 @@ export default function AdminPage() {
               </Button>
             </DialogFooter>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Import from Excel Dialog */}
+      <Dialog open={isImportDialogOpen} onOpenChange={setIsImportDialogOpen}>
+        <DialogContent className="max-w-[95vw]! w-[95vw] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>הוספת בריכות מקובץ אקסל</DialogTitle>
+            <DialogDescription>
+              העלו קובץ אקסל (.xlsx) או CSV עם בריכות חדשות להוספה למערכת
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            {/* Instructions */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm space-y-2">
+              <p className="font-semibold text-blue-800">הוראות להכנת הקובץ:</p>
+              <ol className="list-decimal list-inside space-y-1 text-blue-700">
+                <li>פתחו קובץ אקסל חדש (או השתמשו בקובץ CSV)</li>
+                <li><strong>השורה הראשונה חייבת להכיל כותרות עמודות</strong> — בדיוק כמו בטבלה:</li>
+              </ol>
+              <div className="bg-white rounded p-3 mt-2 overflow-x-auto">
+                <table className="text-sm w-full">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="p-1.5 text-right font-semibold">שם הבריכה</th>
+                      <th className="p-1.5 text-right font-semibold">עיר</th>
+                      <th className="p-1.5 text-right font-semibold">כתובת</th>
+                      <th className="p-1.5 text-right font-semibold">טלפון</th>
+                      <th className="p-1.5 text-right font-semibold">מייל</th>
+                      <th className="p-1.5 text-right font-semibold">אתר</th>
+                      <th className="p-1.5 text-right font-semibold">טיפולים</th>
+                      <th className="p-1.5 text-right font-semibold">נגישות</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="text-muted-foreground">
+                      <td className="p-1.5">בריכה לדוגמה</td>
+                      <td className="p-1.5">ירושלים</td>
+                      <td className="p-1.5">רחוב הדוגמה 1</td>
+                      <td className="p-1.5" dir="ltr">02-1234567</td>
+                      <td className="p-1.5" dir="ltr">info@example.com</td>
+                      <td className="p-1.5" dir="ltr">www.example.co.il</td>
+                      <td className="p-1.5">הידרותרפיה, שחייה</td>
+                      <td className="p-1.5">כן</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <ul className="list-disc list-inside space-y-1 text-blue-700 mt-2">
+                <li>בעמודת <strong>טיפולים</strong> — הפרידו בפסיקים בין סוגי הטיפולים</li>
+                <li>בעמודת <strong>נגישות</strong> — כתבו &quot;כן&quot; או &quot;לא&quot;</li>
+                <li className="text-green-700 font-medium">בריכות שכבר קיימות במערכת (לפי שם) ידולגו אוטומטית</li>
+              </ul>
+            </div>
+
+            {/* File Input */}
+            <div className="space-y-2">
+              <Label htmlFor="excel-file">בחרו קובץ</Label>
+              <Input
+                id="excel-file"
+                type="file"
+                accept=".xlsx,.xls,.csv"
+                onChange={handleFileUpload}
+                ref={fileInputRef}
+                className="cursor-pointer"
+              />
+            </div>
+
+            {/* Error */}
+            {importError && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">
+                {importError}
+              </div>
+            )}
+
+            {/* Preview */}
+            {importPreview.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-green-700">
+                  זוהו {importPreview.length} בריכות בקובץ. תצוגה מקדימה:
+                </p>
+                <div className="border rounded-lg overflow-x-auto max-h-80 overflow-y-auto">
+                  <table className="w-full text-sm">
+                    <thead className="bg-muted sticky top-0">
+                      <tr>
+                        <th className="p-2 text-right font-medium">#</th>
+                        <th className="p-2 text-right font-medium">שם הבריכה</th>
+                        <th className="p-2 text-right font-medium">עיר</th>
+                        <th className="p-2 text-right font-medium">כתובת</th>
+                        <th className="p-2 text-right font-medium">טלפון</th>
+                        <th className="p-2 text-right font-medium">מייל</th>
+                        <th className="p-2 text-right font-medium">אתר</th>
+                        <th className="p-2 text-right font-medium">טיפולים</th>
+                        <th className="p-2 text-right font-medium">נגיש</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {importPreview.map((pool, i) => (
+                        <tr key={i} className="border-t">
+                          <td className="p-2 text-muted-foreground">{i + 1}</td>
+                          <td className="p-2 font-medium">{pool.name}</td>
+                          <td className="p-2">{pool.city}</td>
+                          <td className="p-2">{pool.address}</td>
+                          <td className="p-2" dir="ltr">{pool.phone}</td>
+                          <td className="p-2" dir="ltr">{pool.email}</td>
+                          <td className="p-2" dir="ltr">{pool.website}</td>
+                          <td className="p-2 text-xs">{pool.treatments?.join(", ")}</td>
+                          <td className="p-2">{pool.isAccessible ? "כן" : "לא"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsImportDialogOpen(false)}
+            >
+              ביטול
+            </Button>
+            {importPreview.length > 0 && (
+              <Button
+                onClick={handleImportConfirm}
+                disabled={isImporting}
+                variant="default"
+              >
+                {isImporting
+                  ? "מייבא..."
+                  : `הוספת ${importPreview.length} בריכות`}
+              </Button>
+            )}
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
