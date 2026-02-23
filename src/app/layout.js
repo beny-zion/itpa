@@ -8,6 +8,9 @@ const rubik = Rubik({
 });
 
 export const metadata = {
+  verification: {
+    google: "5Uald6uIVcpJx40qc2TZG0IvpbRqTVh597Np52iTXrM",
+  },
   title: "איגוד הבריכות הטיפוליות בישראל",
   description: "הגוף המקצועי המייצג את תחום ההידרותרפיה בישראל. פועלים לקידום סטנדרטים, רגולציה ובטיחות.",
   icons: {
