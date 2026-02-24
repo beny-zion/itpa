@@ -459,9 +459,10 @@ export default function HomePage() {
 
         {/* Pools Index Section */}
         {isLoading ? (
-          <section id="pools" className="py-24 bg-muted/50">
-            <div className="container mx-auto px-6 md:px-12 lg:px-20 text-center">
-              <p className="text-muted-foreground">טוען בריכות...</p>
+          <section id="pools" className="py-24 bg-muted/50" aria-labelledby="pools-loading-heading">
+            <div className="container mx-auto px-6 md:px-12 lg:px-20 text-center" aria-live="polite" aria-busy="true">
+              <h2 id="pools-loading-heading" className="sr-only">מאגר בריכות טיפוליות</h2>
+              <p className="text-muted-foreground" role="status">טוען בריכות...</p>
             </div>
           </section>
         ) : (

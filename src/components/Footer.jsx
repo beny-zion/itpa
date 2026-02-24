@@ -29,7 +29,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 <li>
                   <Link
-                    href="#about"
+                    href="/#about"
                     className="text-background/70 hover:text-primary transition-colors"
                   >
                     אודות
@@ -37,7 +37,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#goals"
+                    href="/#goals"
                     className="text-background/70 hover:text-primary transition-colors"
                   >
                     מטרות
@@ -45,7 +45,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#activities"
+                    href="/#activities"
                     className="text-background/70 hover:text-primary transition-colors"
                   >
                     תחומי פעילות
@@ -62,7 +62,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 <li>
                   <Link
-                    href="#pools"
+                    href="/#pools"
                     className="text-background/70 hover:text-primary transition-colors"
                   >
                     מאגר בריכות
@@ -70,7 +70,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#join"
+                    href="/#join"
                     className="text-background/70 hover:text-primary transition-colors"
                   >
                     הצטרפות לאיגוד
@@ -136,10 +136,11 @@ export default function Footer() {
           <a
             href="mailto:b4123190@gmail.com"
             className="opacity-80 hover:opacity-100 transition-opacity"
+            aria-label="BB Dev - פיתוח האתר"
           >
             <Image
               src="/bb.logo3.svg"
-              alt="BB Dev"
+              alt="BB Dev - פיתוח האתר"
               width={100}
               height={40}
               className="h-8 w-auto"

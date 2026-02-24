@@ -1,14 +1,35 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+function usePrefersReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mql.matches);
+    const handler = (e) => setPrefersReducedMotion(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+
+  return prefersReducedMotion;
+}
+
 export function FadeIn({ children, delay = 0, direction = "up", className = "" }) {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   const directions = {
     up: { y: 40, x: 0 },
     down: { y: -40, x: 0 },
     left: { y: 0, x: 40 },
     right: { y: 0, x: -40 },
   };
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div
@@ -28,6 +49,12 @@ export function FadeIn({ children, delay = 0, direction = "up", className = "" }
 }
 
 export function FadeInStagger({ children, className = "", staggerDelay = 0.1 }) {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       initial="hidden"
@@ -42,6 +69,12 @@ export function FadeInStagger({ children, className = "", staggerDelay = 0.1 }) 
 }
 
 export function FadeInStaggerItem({ children, className = "" }) {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       variants={{
@@ -63,6 +96,12 @@ export function FadeInStaggerItem({ children, className = "" }) {
 }
 
 export function ScaleIn({ children, delay = 0, className = "" }) {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
@@ -11,6 +11,8 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+  const menuButtonRef = useRef(null);
+  const mobileMenuRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,9 +22,41 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close mobile menu on Escape key
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Escape" && isMenuOpen) {
+        setIsMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    },
+    [isMenuOpen]
+  );
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+      // Focus first link in menu when opened
+      const firstLink = mobileMenuRef.current?.querySelector("a");
+      firstLink?.focus();
+    }
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isMenuOpen, handleKeyDown]);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
+
   // Helper function to create proper href for sections
   const getSectionHref = (hash) => {
     return isHomePage ? hash : `/${hash}`;
+  };
+
+  // Check if nav item is current page
+  const isCurrentPage = (href) => {
+    if (href === "/contact") return pathname === "/contact";
+    return false;
   };
 
   const navItems = [
@@ -47,6 +81,7 @@ export default function Header() {
             href="/"
             className="flex items-center gap-3 text-xl font-bold text-foreground"
             aria-label="עמוד הבית - איגוד הבריכות הטיפוליות"
+            aria-current={pathname === "/" ? "page" : undefined}
           >
             <Image
               src="/bti_logo.svg"
@@ -67,6 +102,7 @@ export default function Header() {
                 <Link
                   href={item.href}
                   className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground relative after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-primary after:scale-x-0 after:transition-transform hover:after:scale-x-100"
+                  aria-current={isCurrentPage(item.href) ? "page" : undefined}
                 >
                   {item.label}
                 </Link>
@@ -92,6 +128,7 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button
+            ref={menuButtonRef}
             className="md:hidden p-2 text-foreground hover:text-primary transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-expanded={isMenuOpen}
@@ -127,6 +164,7 @@ export default function Header() {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div
+            ref={mobileMenuRef}
             id="mobile-menu"
             className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-lg border-b shadow-lg"
             role="navigation"
@@ -139,6 +177,7 @@ export default function Header() {
                     href={item.href}
                     className="block text-lg font-medium text-foreground transition-colors hover:text-primary py-2"
                     onClick={() => setIsMenuOpen(false)}
+                    aria-current={isCurrentPage(item.href) ? "page" : undefined}
                   >
                     {item.label}
                   </Link>

@@ -61,7 +61,7 @@
   --secondary: #F1F5F9;
   --secondary-foreground: #0F172A;
   --muted: #F8FAFC;
-  --muted-foreground: #64748B;
+  --muted-foreground: #556a7e;
   --accent: #14B8A6;
   --accent-foreground: #FFFFFF;
   --destructive: #EF4444;
@@ -155,9 +155,23 @@ html[dir="rtl"] {
   top: 0;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+/* Smooth scrolling - respect reduced motion preference */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Reduced motion: disable all animations and transitions */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Scroll offset for fixed header */
