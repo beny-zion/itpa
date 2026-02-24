@@ -66,7 +66,7 @@ const jsonLd = {
   alternateName: "ITPA - Israel Therapeutic Pools Association",
   url: "https://www.itpa.org.il",
   logo: "https://www.itpa.org.il/bti_logo.svg",
-  email: "office@itpa.org",
+  email: "office@itpa.org.il",
   address: {
     "@type": "PostalAddress",
     streetAddress: "אליעזר בן הורקנוס 8",

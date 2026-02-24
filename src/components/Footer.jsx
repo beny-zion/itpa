@@ -128,10 +128,10 @@ export default function Footer() {
             © {new Date().getFullYear()} איגוד הבריכות הטיפוליות בישראל. כל הזכויות שמורות.
           </p>
           <a
-            href="mailto:office@itpa.org"
+            href="mailto:office@itpa.org.il"
             className="text-background/50 hover:text-primary transition-colors text-sm"
           >
-            office@itpa.org
+            office@itpa.org.il
           </a>
           <a
             href="mailto:b4123190@gmail.com"

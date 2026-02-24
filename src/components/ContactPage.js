@@ -242,10 +242,10 @@ export default function ContactPage() {
                       <div>
                         <p className="font-medium">דוא״ל</p>
                         <a
-                          href="mailto:office@itpa.org"
+                          href="mailto:office@itpa.org.il"
                           className="text-primary hover:underline"
                         >
-                          office@itpa.org
+                          office@itpa.org.il
                         </a>
                       </div>
                     </div>
