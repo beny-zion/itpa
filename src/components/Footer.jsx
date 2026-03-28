@@ -134,16 +134,19 @@ export default function Footer() {
             office@itpa.org.il
           </a>
           <a
-            href="mailto:b4123190@gmail.com"
-            className="opacity-80 hover:opacity-100 transition-opacity"
-            aria-label="BB Dev - פיתוח האתר"
+            href="https://beny-zion-dev.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
+            aria-label="Beny Zion Dev - פיתוח האתר"
           >
+            <span className="text-background/40 text-xs">Developed by</span>
             <Image
-              src="/bb.logo3.svg"
-              alt="BB Dev - פיתוח האתר"
-              width={100}
-              height={40}
-              className="h-8 w-auto"
+              src="/beny-zion-dev.svg"
+              alt="Beny Zion Dev"
+              width={24}
+              height={24}
+              className="h-6 w-6 drop-shadow-[0_0_6px_rgba(255,255,255,0.5)]"
             />
           </a>
         </div>
