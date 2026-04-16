@@ -67,6 +67,7 @@ export default function AdminPage() {
   const [importPreview, setImportPreview] = useState([]);
   const [importError, setImportError] = useState("");
   const [isImporting, setIsImporting] = useState(false);
+  const [importMode, setImportMode] = useState("add_only"); // "add_only" | "update_existing"
   const fileInputRef = useRef(null);
   const router = useRouter();
 
@@ -241,9 +242,12 @@ export default function AdminPage() {
     "מייל": "email",
     "אימייל": "email",
     "דואל": "email",
+    'דא"ל': "email",
+    "דא״ל": "email",
     "email": "email",
     "אתר": "website",
     "אתר אינטרנט": "website",
+    "כתובת אתר": "website",
     "website": "website",
     "טיפולים": "treatments",
     "סוגי טיפולים": "treatments",
@@ -252,6 +256,14 @@ export default function AdminPage() {
     "נגיש": "isAccessible",
     "is_accessible": "isAccessible",
     "isaccessible": "isAccessible",
+  };
+
+  // Partial match mapping for headers with extra text (e.g. "סוגי טיפולים (להפסיק בפסיק)")
+  const columnPrefixMap = {
+    "סוגי טיפולים": "treatments",
+    "שם הבריכה": "name",
+    "אתר אינטרנט": "website",
+    "כתובת אתר": "website",
   };
 
   const handleFileUpload = (e) => {
@@ -279,9 +291,19 @@ export default function AdminPage() {
         const mapped = rows.map((row) => {
           const pool = {};
           for (const [key, value] of Object.entries(row)) {
-            const normalizedKey = key.trim().toLowerCase();
-            // Find matching column
-            const mappedField = columnMap[key.trim()] || columnMap[normalizedKey];
+            const trimmedKey = key.trim();
+            const normalizedKey = trimmedKey.toLowerCase();
+            // Find matching column: exact match, then case-insensitive, then prefix match
+            let mappedField = columnMap[trimmedKey] || columnMap[normalizedKey];
+            if (!mappedField) {
+              // Fallback: check if the header starts with a known prefix
+              for (const [prefix, field] of Object.entries(columnPrefixMap)) {
+                if (trimmedKey.startsWith(prefix)) {
+                  mappedField = field;
+                  break;
+                }
+              }
+            }
             if (mappedField) {
               pool[mappedField] = String(value).trim();
             }
@@ -331,7 +353,7 @@ export default function AdminPage() {
       const response = await fetch("/api/pools/import", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pools: importPreview }),
+        body: JSON.stringify({ pools: importPreview, mode: importMode }),
       });
 
       const result = await response.json();
@@ -357,6 +379,7 @@ export default function AdminPage() {
   const openImportDialog = () => {
     setImportPreview([]);
     setImportError("");
+    setImportMode("add_only");
     if (fileInputRef.current) fileInputRef.current.value = "";
     setIsImportDialogOpen(true);
   };
@@ -947,8 +970,38 @@ export default function AdminPage() {
               <ul className="list-disc list-inside space-y-1 text-blue-700 mt-2">
                 <li>בעמודת <strong>טיפולים</strong> — הפרידו בפסיקים בין סוגי הטיפולים</li>
                 <li>בעמודת <strong>נגישות</strong> — כתבו &quot;כן&quot; או &quot;לא&quot;</li>
-                <li className="text-green-700 font-medium">בריכות שכבר קיימות במערכת (לפי שם) ידולגו אוטומטית</li>
               </ul>
+            </div>
+
+            {/* Import Mode Toggle */}
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">מצב ייבוא</Label>
+              <div className="flex gap-3">
+                <label className={`flex items-center gap-2 cursor-pointer border rounded-lg px-4 py-2.5 text-sm transition-colors ${importMode === "add_only" ? "border-primary bg-primary/5 text-primary font-medium" : "border-muted hover:border-primary/50"}`}>
+                  <input
+                    type="radio"
+                    name="importMode"
+                    value="add_only"
+                    checked={importMode === "add_only"}
+                    onChange={(e) => setImportMode(e.target.value)}
+                    className="accent-primary"
+                  />
+                  רק חדשות
+                  <span className="text-xs text-muted-foreground">(קיימות ידולגו)</span>
+                </label>
+                <label className={`flex items-center gap-2 cursor-pointer border rounded-lg px-4 py-2.5 text-sm transition-colors ${importMode === "update_existing" ? "border-primary bg-primary/5 text-primary font-medium" : "border-muted hover:border-primary/50"}`}>
+                  <input
+                    type="radio"
+                    name="importMode"
+                    value="update_existing"
+                    checked={importMode === "update_existing"}
+                    onChange={(e) => setImportMode(e.target.value)}
+                    className="accent-primary"
+                  />
+                  עדכון קיימות + חדשות
+                  <span className="text-xs text-muted-foreground">(קיימות יתעדכנו)</span>
+                </label>
+              </div>
             </div>
 
             {/* File Input */}

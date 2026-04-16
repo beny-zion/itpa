@@ -9,7 +9,7 @@ export async function POST(request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { pools } = await request.json();
+    const { pools, mode = "add_only" } = await request.json();
 
     if (!Array.isArray(pools) || pools.length === 0) {
       return NextResponse.json(
@@ -32,64 +32,92 @@ export async function POST(request) {
     // Get existing pools to check for duplicates
     const { data: existingPools, error: fetchError } = await supabase
       .from("pools")
-      .select("name");
+      .select("id, name");
 
     if (fetchError) throw fetchError;
 
-    const existingNames = new Set(
-      (existingPools || []).map((p) => p.name.trim())
+    const existingByName = new Map(
+      (existingPools || []).map((p) => [p.name.trim(), p.id])
     );
 
-    // Filter out duplicates
     const newPools = [];
+    const toUpdate = [];
     const skipped = [];
 
     for (const pool of pools) {
-      if (existingNames.has(pool.name.trim())) {
-        skipped.push(pool.name);
+      const trimmedName = pool.name.trim();
+      const existingId = existingByName.get(trimmedName);
+
+      if (existingId !== undefined) {
+        if (mode === "update_existing") {
+          toUpdate.push({ ...pool, id: existingId });
+        } else {
+          skipped.push(pool.name);
+        }
       } else {
         newPools.push(pool);
       }
     }
 
-    if (newPools.length === 0) {
-      return NextResponse.json({
-        success: true,
-        message: "כל הבריכות כבר קיימות במערכת — לא נוספו בריכות חדשות",
-        added: 0,
-        skipped: skipped.length,
-        skippedNames: skipped,
-      });
+    let addedCount = 0;
+    let updatedCount = 0;
+
+    // Insert new pools
+    if (newPools.length > 0) {
+      const poolsToInsert = newPools.map((pool) => ({
+        name: pool.name,
+        city: pool.city,
+        address: pool.address || "",
+        phone: pool.phone || "",
+        email: pool.email || "",
+        website: pool.website || "",
+        treatments: pool.treatments || [],
+        is_accessible: pool.isAccessible || false,
+      }));
+
+      const { data, error: insertError } = await supabase
+        .from("pools")
+        .insert(poolsToInsert)
+        .select();
+
+      if (insertError) throw insertError;
+      addedCount = data.length;
     }
 
-    // Insert only new pools
-    const poolsToInsert = newPools.map((pool) => ({
-      name: pool.name,
-      city: pool.city,
-      address: pool.address || "",
-      phone: pool.phone || "",
-      email: pool.email || "",
-      website: pool.website || "",
-      treatments: pool.treatments || [],
-      is_accessible: pool.isAccessible || false,
-    }));
+    // Update existing pools
+    if (toUpdate.length > 0) {
+      for (const pool of toUpdate) {
+        const { error: updateError } = await supabase
+          .from("pools")
+          .update({
+            name: pool.name,
+            city: pool.city,
+            address: pool.address || "",
+            phone: pool.phone || "",
+            email: pool.email || "",
+            website: pool.website || "",
+            treatments: pool.treatments || [],
+            is_accessible: pool.isAccessible || false,
+          })
+          .eq("id", pool.id);
 
-    const { data, error: insertError } = await supabase
-      .from("pools")
-      .insert(poolsToInsert)
-      .select();
-
-    if (insertError) throw insertError;
-
-    let message = `נוספו ${data.length} בריכות חדשות`;
-    if (skipped.length > 0) {
-      message += ` (${skipped.length} בריכות כבר היו קיימות ודולגו)`;
+        if (updateError) throw updateError;
+        updatedCount++;
+      }
     }
+
+    // Build response message
+    const parts = [];
+    if (addedCount > 0) parts.push(`נוספו ${addedCount} בריכות חדשות`);
+    if (updatedCount > 0) parts.push(`עודכנו ${updatedCount} בריכות קיימות`);
+    if (skipped.length > 0) parts.push(`${skipped.length} בריכות דולגו (כבר קיימות)`);
+    const message = parts.join(", ") || "לא בוצעו שינויים";
 
     return NextResponse.json({
       success: true,
       message,
-      added: data.length,
+      added: addedCount,
+      updated: updatedCount,
       skipped: skipped.length,
       skippedNames: skipped,
     });
