@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { sendAdminNotification, sendUserConfirmation } from "@/lib/email";
 
 // GET - fetch all contacts (for admin)
 export async function GET() {
@@ -51,6 +52,12 @@ export async function POST(request) {
       .single();
 
     if (error) throw error;
+
+    const contactPayload = { ...newContact, id: data.id };
+    Promise.all([
+      sendAdminNotification(contactPayload),
+      sendUserConfirmation(contactPayload),
+    ]).catch((err) => console.error("Email notification failed:", err));
 
     return NextResponse.json({ success: true, id: String(data.id) }, { status: 201 });
   } catch (error) {

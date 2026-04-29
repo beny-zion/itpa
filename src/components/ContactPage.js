@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CONTACT_SUBJECTS } from "@/lib/contact-subjects";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -167,13 +168,11 @@ export default function ContactPage() {
                           <SelectValue placeholder="בחרו נושא" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="join">הצטרפות לאיגוד</SelectItem>
-                          <SelectItem value="info">בקשת מידע</SelectItem>
-                          <SelectItem value="complaint">
-                            תלונה / משוב
-                          </SelectItem>
-                          <SelectItem value="media">פניית תקשורת</SelectItem>
-                          <SelectItem value="other">אחר</SelectItem>
+                          {CONTACT_SUBJECTS.map((subject) => (
+                            <SelectItem key={subject.value} value={subject.value}>
+                              {subject.label}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>
