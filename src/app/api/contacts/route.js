@@ -34,6 +34,12 @@ export async function GET() {
 
 // POST - create new contact submission
 export async function POST(request) {
+  console.log("[contacts] POST called. Env check:", {
+    hasResendKey: !!process.env.RESEND_API_KEY,
+    resendKeyPrefix: process.env.RESEND_API_KEY?.slice(0, 6) || "(missing)",
+    from: process.env.NOTIFICATION_FROM_EMAIL || "(missing)",
+    to: process.env.NOTIFICATION_TO_EMAIL || "(missing)",
+  });
   try {
     const newContact = await request.json();
 
