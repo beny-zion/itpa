@@ -60,10 +60,14 @@ export async function POST(request) {
     if (error) throw error;
 
     const contactPayload = { ...newContact, id: data.id };
-    Promise.all([
-      sendAdminNotification(contactPayload),
-      sendUserConfirmation(contactPayload),
-    ]).catch((err) => console.error("Email notification failed:", err));
+    try {
+      await Promise.all([
+        sendAdminNotification(contactPayload),
+        sendUserConfirmation(contactPayload),
+      ]);
+    } catch (err) {
+      console.error("Email notification failed:", err);
+    }
 
     return NextResponse.json({ success: true, id: String(data.id) }, { status: 201 });
   } catch (error) {
