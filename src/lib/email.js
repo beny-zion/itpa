@@ -93,32 +93,49 @@ function userEmailHtml(contact) {
   `;
 }
 
+function logResult(label, result) {
+  if (result?.error) {
+    console.error(`[email] ${label} REJECTED:`, JSON.stringify({
+      from: `${ORG_NAME} <${FROM}>`,
+      to: result.to,
+      error: result.error,
+    }, null, 2));
+  } else if (result?.data) {
+    console.log(`[email] ${label} OK — id:`, result.data.id);
+  }
+  return result;
+}
+
 export async function sendAdminNotification(contact) {
   if (!resend) {
-    console.warn("RESEND_API_KEY not set — skipping admin notification");
+    console.warn("[email] RESEND_API_KEY not set — skipping admin notification");
     return;
   }
+  console.log("[email] Sending admin notification", { from: FROM, to: TO });
   const subjectLabel = getSubjectLabel(contact.subject);
-  return resend.emails.send({
+  const result = await resend.emails.send({
     from: `${ORG_NAME} <${FROM}>`,
     to: TO,
     replyTo: contact.email,
     subject: `פנייה חדשה מהאתר — ${subjectLabel}`,
     html: adminEmailHtml(contact),
   });
+  return logResult("admin", { ...result, to: TO });
 }
 
 export async function sendUserConfirmation(contact) {
   if (!resend) {
-    console.warn("RESEND_API_KEY not set — skipping user confirmation");
+    console.warn("[email] RESEND_API_KEY not set — skipping user confirmation");
     return;
   }
   if (!contact.email) return;
-  return resend.emails.send({
+  console.log("[email] Sending user confirmation", { from: FROM, to: contact.email });
+  const result = await resend.emails.send({
     from: `${ORG_NAME} <${FROM}>`,
     to: contact.email,
     replyTo: TO,
     subject: `קיבלנו את פנייתך — ${ORG_NAME}`,
     html: userEmailHtml(contact),
   });
+  return logResult("user", { ...result, to: contact.email });
 }
