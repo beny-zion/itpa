@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>מערכת התראות במייל · איגוד הבריכות הטיפוליות</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    font-family: 'Heebo', sans-serif;
+    background: #f0fdfa;
+    color: #111827;
+    overflow: hidden;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slides {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 80px;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+  .badge {
+    display: inline-block;
+    background: #0f766e;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+  }
+  h1 {
+    font-size: 56px;
+    font-weight: 900;
+    color: #0f766e;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #4b5563;
+    text-align: center;
+    margin-bottom: 40px;
+    line-height: 1.5;
+  }
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 32px;
+    align-items: stretch;
+    width: 100%;
+    max-width: 1100px;
+  }
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    border: 1px solid #e5e7eb;
+  }
+  .card.before {
+    border-color: #fecaca;
+    background: #fef2f2;
+  }
+  .card.after {
+    border-color: #99f6e4;
+    background: #f0fdfa;
+  }
+  .card-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .card.before .card-title { color: #b91c1c; }
+  .card.after .card-title { color: #0f766e; }
+  .card ul {
+    list-style: none;
+    font-size: 18px;
+    line-height: 1.9;
+  }
+  .card li {
+    padding-right: 28px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .card li::before {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 20px;
+  }
+  .card.before li::before { content: "✗"; color: #dc2626; }
+  .card.after li::before { content: "✓"; color: #0f766e; font-weight: 700; }
+  .arrow {
+    align-self: center;
+    font-size: 56px;
+    color: #0f766e;
+    font-weight: 900;
+  }
+  .email-previews {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    width: 100%;
+    max-width: 1300px;
+    margin-top: 16px;
+  }
+  .preview {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .preview-label {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f766e;
+    text-align: center;
+    background: white;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  .preview iframe {
+    width: 100%;
+    height: 62vh;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .benefits {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    width: 100%;
+    max-width: 1000px;
+  }
+  .benefit {
+    background: white;
+    border-radius: 14px;
+    padding: 28px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    text-align: right;
+  }
+  .benefit .emoji {
+    font-size: 36px;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .benefit .title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f766e;
+    margin-bottom: 8px;
+  }
+  .benefit .text {
+    font-size: 16px;
+    color: #4b5563;
+    line-height: 1.6;
+  }
+  .nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    color: #0f766e;
+    border: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transition: opacity 0.2s, background 0.2s, transform 0.2s;
+    z-index: 10;
+  }
+  .nav-btn:hover {
+    background: #0f766e;
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+  }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .nav-btn:disabled:hover {
+    background: white;
+    color: #0f766e;
+    transform: translateY(-50%);
+  }
+  .nav-btn.prev { right: 24px; }
+  .nav-btn.next { left: 24px; }
+  .indicator {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    z-index: 10;
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #d1d5db;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .dot.active {
+    background: #0f766e;
+    transform: scale(1.3);
+  }
+  .counter {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    font-size: 14px;
+    color: #9ca3af;
+    font-weight: 600;
+    background: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  }
+  .logo-block {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .logo-block img {
+    height: 56px;
+    width: 56px;
+  }
+  .logo-block .name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f766e;
+  }
+</style>
+</head>
+<body>
+
+<div class="slides">
+
+  <!-- Slide 1 -->
+  <section class="slide active" data-index="0">
+    <div class="logo-block">
+      <img src="https://www.itpa.org.il/bti_logo.svg" alt="לוגו האיגוד">
+      <div class="name">איגוד הבריכות הטיפוליות בישראל</div>
+    </div>
+    <span class="badge">שדרוג מערכת קבלת פניות</span>
+    <h1>פניות לא יחכו יותר<br>בשקט במערכת</h1>
+    <h2>השדרוג שעשינו: התראה אוטומטית במייל לכל פנייה חדשה מהאתר</h2>
+    <div class="compare">
+      <div class="card before">
+        <div class="card-title">קודם</div>
+        <ul>
+          <li>פניות נשמרו במערכת בלי שאף אחד יידע</li>
+          <li>היה צריך להיכנס ולבדוק ידנית כל יום</li>
+          <li>תגובה לפונה לקחה ימים</li>
+          <li>הפונה לא ידע אם הפנייה הגיעה</li>
+        </ul>
+      </div>
+      <div class="arrow">←</div>
+      <div class="card after">
+        <div class="card-title">עכשיו</div>
+        <ul>
+          <li>מייל מיידי למשרד עם כל הפרטים</li>
+          <li>מייל אישור אוטומטי לפונה</li>
+          <li>תגובה בתוך שעות, לא ימים</li>
+          <li>בלי טרחה — הכל אוטומטי</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 2 -->
+  <section class="slide" data-index="1">
+    <span class="badge">דוגמה חיה</span>
+    <h1 style="font-size:40px;margin-bottom:8px;">אלה המיילים שנשלחים בפועל</h1>
+    <h2 style="font-size:18px;margin-bottom:24px;">רנדור אמיתי של ה-HTML שנשלח לתיבות הדואר</h2>
+    <div class="email-previews">
+      <div class="preview">
+        <div class="preview-label">📧 המייל שהמשרד מקבל</div>
+        <iframe id="admin-preview"></iframe>
+      </div>
+      <div class="preview">
+        <div class="preview-label">✉️ המייל שהפונה מקבל</div>
+        <iframe id="user-preview"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 3 -->
+  <section class="slide" data-index="2">
+    <span class="badge">למה זה חשוב</span>
+    <h1>היתרונות בשורה התחתונה</h1>
+    <div class="benefits">
+      <div class="benefit">
+        <span class="emoji">⚡</span>
+        <div class="title">מענה מהיר ללקוחות</div>
+        <div class="text">פניות מקבלות תגובה תוך שעות במקום ימים — שימור לקוחות פוטנציאליים</div>
+      </div>
+      <div class="benefit">
+        <span class="emoji">💎</span>
+        <div class="title">תחושה מקצועית</div>
+        <div class="text">המייל ממותג בלוגו האיגוד ונשלח מ-notifications@itpa.org.il — לא נכנס לספאם</div>
+      </div>
+      <div class="benefit">
+        <span class="emoji">🤖</span>
+        <div class="title">אפס תפעול ידני</div>
+        <div class="text">אין צורך להיכנס לפאנל לבדוק. הפניות מגיעות אוטומטית למייל</div>
+      </div>
+      <div class="benefit">
+        <span class="emoji">💰</span>
+        <div class="title">אפס עלות</div>
+        <div class="text">חינמי לחלוטין עד 3,000 מיילים בחודש — מעבר לצורכי האיגוד</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<button class="nav-btn prev" id="prev">→</button>
+<button class="nav-btn next" id="next">←</button>
+
+<div class="indicator">
+  <div class="dot active"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
+<div class="counter" id="counter">1 / 3</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  let current = 0;
+
+  function show(i) {
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+    counter.textContent = `${i + 1} / ${slides.length}`;
+    current = i;
+  }
+
+  prevBtn.onclick = () => current > 0 && show(current - 1);
+  nextBtn.onclick = () => current < slides.length - 1 && show(current + 1);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') nextBtn.click();
+    if (e.key === 'ArrowRight') prevBtn.click();
+  });
+
+  // ===== Render real email HTML into iframes =====
+  const SITE_URL = "https://www.itpa.org.il";
+  const LOGO_URL = SITE_URL + "/bti_logo.svg";
+  const ORG_NAME = "איגוד הבריכות הטיפוליות בישראל";
+  const TO = "office@itpa.org.il";
+
+  const sample = {
+    fullName: "שרה כהן",
+    organization: "בריכת רעננה",
+    email: "sara.cohen@example.com",
+    phone: "050-1234567",
+    subject: "info",
+    subjectLabel: "בקשת מידע",
+    message: "שלום, אנו בריכה חדשה ומעוניינים לקבל מידע על תהליך ההצטרפות לאיגוד הבריכות הטיפוליות בישראל.\n\nנשמח לקבוע פגישת היכרות בהקדם. תודה רבה!",
+  };
+
+  function emailHeader() {
+    return `
+      <div dir="rtl" style="text-align:center;padding:20px 0 16px;border-bottom:2px solid #0f766e;margin-bottom:24px;">
+        <a href="${SITE_URL}" style="text-decoration:none;color:inherit;">
+          <img src="${LOGO_URL}" alt="${ORG_NAME}" width="80" height="80" style="display:inline-block;width:80px;height:80px;border:0;outline:none;" />
+          <div style="margin-top:8px;font-size:16px;font-weight:600;color:#0f766e;direction:rtl;text-align:center;">${ORG_NAME}</div>
+        </a>
+      </div>
+    `;
+  }
+
+  function row(label, value) {
+    return `
+      <tr dir="rtl">
+        <td dir="rtl" align="right" style="padding:8px 12px;font-weight:600;background:#f3f4f6;width:140px;border:1px solid #e5e7eb;text-align:right;direction:rtl;">${label}</td>
+        <td dir="rtl" align="right" style="padding:8px 12px;border:1px solid #e5e7eb;text-align:right;direction:rtl;">${value}</td>
+      </tr>
+    `;
+  }
+
+  function adminEmailHtml(c) {
+    const messageHtml = c.message.replace(/\n/g, "<br>");
+    return `
+      <!DOCTYPE html>
+      <html lang="he" dir="rtl">
+        <head><meta charset="utf-8"></head>
+        <body dir="rtl" style="font-family:Arial,Helvetica,sans-serif;background:#f9fafb;padding:24px;color:#111827;direction:rtl;text-align:right;">
+          <div dir="rtl" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;padding:24px;border:1px solid #e5e7eb;direction:rtl;text-align:right;">
+            ${emailHeader()}
+            <h2 dir="rtl" style="margin:0 0 16px;color:#0f766e;direction:rtl;text-align:right;">פנייה חדשה מהאתר</h2>
+            <p dir="rtl" style="margin:0 0 16px;color:#4b5563;direction:rtl;text-align:right;">התקבלה פנייה חדשה דרך טופס "צור קשר" באתר ${ORG_NAME}.</p>
+            <table dir="rtl" style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:14px;direction:rtl;">
+              ${row("שם מלא", c.fullName)}
+              ${row("ארגון / בריכה", c.organization)}
+              ${row("דוא״ל", c.email)}
+              ${row("טלפון", c.phone)}
+              ${row("נושא", c.subjectLabel)}
+            </table>
+            <div dir="rtl" style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:12px;margin-bottom:16px;direction:rtl;text-align:right;">
+              <div dir="rtl" style="font-weight:600;margin-bottom:6px;direction:rtl;text-align:right;">תוכן ההודעה:</div>
+              <div dir="rtl" style="font-size:14px;line-height:1.6;direction:rtl;text-align:right;">${messageHtml}</div>
+            </div>
+            <div dir="rtl" style="text-align:center;margin-top:20px;direction:rtl;">
+              <a href="mailto:${c.email}" style="display:inline-block;background:#0f766e;color:#ffffff;text-decoration:none;padding:10px 20px;border-radius:6px;font-weight:600;">השב לפונה</a>
+            </div>
+            <p dir="rtl" style="margin:20px 0 0;color:#9ca3af;font-size:12px;text-align:center;direction:rtl;">
+              ניתן לעדכן סטטוס פנייה בפאנל הניהול
+            </p>
+          </div>
+        </body>
+      </html>
+    `;
+  }
+
+  function userEmailHtml(c) {
+    return `
+      <!DOCTYPE html>
+      <html lang="he" dir="rtl">
+        <head><meta charset="utf-8"></head>
+        <body dir="rtl" style="font-family:Arial,Helvetica,sans-serif;background:#f9fafb;padding:24px;color:#111827;direction:rtl;text-align:right;">
+          <div dir="rtl" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;padding:24px;border:1px solid #e5e7eb;direction:rtl;text-align:right;">
+            ${emailHeader()}
+            <h2 dir="rtl" style="margin:0 0 16px;color:#0f766e;direction:rtl;text-align:right;">פנייתך התקבלה</h2>
+            <p dir="rtl" style="margin:0 0 12px;font-size:15px;line-height:1.6;direction:rtl;text-align:right;">שלום ${c.fullName},</p>
+            <p dir="rtl" style="margin:0 0 12px;font-size:15px;line-height:1.6;direction:rtl;text-align:right;">
+              תודה שפנית ל${ORG_NAME}. פנייתך התקבלה אצלנו ונחזור אליך בהקדם האפשרי.
+            </p>
+            <p dir="rtl" style="margin:0 0 16px;font-size:15px;line-height:1.6;direction:rtl;text-align:right;">
+              לפניות דחופות ניתן ליצור איתנו קשר ישירות:
+            </p>
+            <div dir="rtl" style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:12px;font-size:14px;line-height:1.8;direction:rtl;text-align:right;">
+              <div dir="rtl" style="direction:rtl;text-align:right;">דוא״ל: <a href="mailto:${TO}" style="color:#0f766e;">${TO}</a></div>
+              <div dir="rtl" style="direction:rtl;text-align:right;">כתובת: אליעזר בן הורקנוס 8, אשדוד</div>
+              <div dir="rtl" style="direction:rtl;text-align:right;">שעות פעילות: ראשון–חמישי 09:00–17:00, שישי 09:00–12:00</div>
+            </div>
+            <p dir="rtl" style="margin:20px 0 0;color:#6b7280;font-size:13px;direction:rtl;text-align:right;">
+              בברכה,<br>
+              ${ORG_NAME}
+            </p>
+          </div>
+        </body>
+      </html>
+    `;
+  }
+
+  document.getElementById('admin-preview').srcdoc = adminEmailHtml(sample);
+  document.getElementById('user-preview').srcdoc = userEmailHtml(sample);
+</script>
+
+</body>
+</html>
