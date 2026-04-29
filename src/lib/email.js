@@ -8,6 +8,19 @@ const resend = process.env.RESEND_API_KEY
 const FROM = process.env.NOTIFICATION_FROM_EMAIL || "notifications@itpa.org.il";
 const TO = process.env.NOTIFICATION_TO_EMAIL || "office@itpa.org.il";
 const ORG_NAME = "איגוד הבריכות הטיפוליות בישראל";
+const SITE_URL = "https://www.itpa.org.il";
+const LOGO_URL = `${SITE_URL}/bti_logo.svg`;
+
+function emailHeader() {
+  return `
+    <div dir="rtl" style="text-align:center;padding:20px 0 16px;border-bottom:2px solid #0f766e;margin-bottom:24px;">
+      <a href="${SITE_URL}" style="text-decoration:none;color:inherit;">
+        <img src="${LOGO_URL}" alt="${ORG_NAME}" width="80" height="80" style="display:inline-block;width:80px;height:80px;border:0;outline:none;" />
+        <div style="margin-top:8px;font-size:16px;font-weight:600;color:#0f766e;direction:rtl;text-align:center;">${ORG_NAME}</div>
+      </a>
+    </div>
+  `;
+}
 
 function escapeHtml(value) {
   if (value == null) return "";
@@ -38,6 +51,7 @@ function adminEmailHtml(contact) {
       <head><meta charset="utf-8"></head>
       <body dir="rtl" style="font-family:Arial,Helvetica,sans-serif;background:#f9fafb;padding:24px;color:#111827;direction:rtl;text-align:right;">
         <div dir="rtl" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;padding:24px;border:1px solid #e5e7eb;direction:rtl;text-align:right;">
+          ${emailHeader()}
           <h2 dir="rtl" style="margin:0 0 16px;color:#0f766e;direction:rtl;text-align:right;">פנייה חדשה מהאתר</h2>
           <p dir="rtl" style="margin:0 0 16px;color:#4b5563;direction:rtl;text-align:right;">התקבלה פנייה חדשה דרך טופס "צור קשר" באתר ${escapeHtml(ORG_NAME)}.</p>
           <table dir="rtl" style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:14px;direction:rtl;">
@@ -70,6 +84,7 @@ function userEmailHtml(contact) {
       <head><meta charset="utf-8"></head>
       <body dir="rtl" style="font-family:Arial,Helvetica,sans-serif;background:#f9fafb;padding:24px;color:#111827;direction:rtl;text-align:right;">
         <div dir="rtl" style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;padding:24px;border:1px solid #e5e7eb;direction:rtl;text-align:right;">
+          ${emailHeader()}
           <h2 dir="rtl" style="margin:0 0 16px;color:#0f766e;direction:rtl;text-align:right;">פנייתך התקבלה</h2>
           <p dir="rtl" style="margin:0 0 12px;font-size:15px;line-height:1.6;direction:rtl;text-align:right;">שלום ${escapeHtml(contact.fullName)},</p>
           <p dir="rtl" style="margin:0 0 12px;font-size:15px;line-height:1.6;direction:rtl;text-align:right;">
