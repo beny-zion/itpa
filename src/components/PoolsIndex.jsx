@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FadeIn, FadeInStagger, FadeInStaggerItem } from "@/components/FadeIn";
+import { ExternalLink } from "lucide-react";
 
 export default function PoolsIndex({ pools }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -219,10 +220,11 @@ export default function PoolsIndex({ pools }) {
                                 href={pool.website.startsWith("http") ? pool.website : `https://${pool.website}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-primary hover:underline break-all"
+                                className="text-primary hover:underline break-all inline-flex items-center gap-1"
                                 aria-label={`${pool.website} (נפתח בחלון חדש)`}
                               >
                                 {pool.website}
+                                <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                                 <span className="sr-only"> (נפתח בחלון חדש)</span>
                               </a>
                             </dd>

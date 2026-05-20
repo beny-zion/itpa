@@ -101,7 +101,7 @@ export default function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground relative after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-primary after:scale-x-0 after:transition-transform hover:after:scale-x-100"
+                  className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground underline underline-offset-[6px] decoration-transparent hover:decoration-primary focus-visible:decoration-primary decoration-2 aria-[current=page]:text-primary aria-[current=page]:decoration-primary"
                   aria-current={isCurrentPage(item.href) ? "page" : undefined}
                 >
                   {item.label}

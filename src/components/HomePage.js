@@ -60,24 +60,29 @@ export default function HomePage() {
 
               <FadeIn delay={0.4}>
                 <div className="flex flex-col sm:flex-row gap-4 relative z-10">
-                  <a
-                    href="#join"
-                    className="inline-flex items-center justify-center text-lg px-8 py-4 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all btn-premium font-medium cursor-pointer"
+                  <Button
+                    asChild
+                    size="lg"
+                    className="text-lg px-8 py-6 rounded-full btn-premium font-medium"
                   >
-                    הצטרפות לאיגוד
-                  </a>
-                  <a
-                    href="#pools"
-                    className="inline-flex items-center justify-center text-lg px-8 py-4 rounded-full border-2 border-foreground text-foreground hover:bg-foreground hover:text-background transition-all font-medium cursor-pointer"
+                    <Link href="#join">הצטרפות לאיגוד</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="text-lg px-8 py-6 rounded-full border-2 border-foreground text-foreground hover:bg-foreground hover:text-background font-medium"
                   >
-                    איתור בריכה טיפולית
-                  </a>
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center justify-center text-lg px-8 py-4 rounded-full text-foreground hover:bg-muted transition-all font-medium cursor-pointer"
+                    <Link href="#pools">איתור בריכה טיפולית</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="ghost"
+                    className="text-lg px-8 py-6 rounded-full text-foreground hover:bg-muted font-medium"
                   >
-                    יצירת קשר
-                  </Link>
+                    <Link href="/contact">יצירת קשר</Link>
+                  </Button>
                 </div>
               </FadeIn>
             </div>
@@ -221,7 +226,7 @@ export default function HomePage() {
                               />
                             </svg>
                           </div>
-                          <CardTitle className="text-lg">{goal.title}</CardTitle>
+                          <CardTitle as="h3" className="text-lg">{goal.title}</CardTitle>
                         </div>
                       </CardHeader>
                       <CardContent>
@@ -264,7 +269,7 @@ export default function HomePage() {
                               />
                             </svg>
                           </div>
-                          <CardTitle className="text-lg">{goal.title}</CardTitle>
+                          <CardTitle as="h3" className="text-lg">{goal.title}</CardTitle>
                         </div>
                       </CardHeader>
                       <CardContent>
@@ -307,7 +312,7 @@ export default function HomePage() {
                         className="object-cover w-full h-full"
                       />
                     </div>
-                    <CardTitle className="text-2xl mb-2">צבי הנדלס</CardTitle>
+                    <CardTitle as="h3" className="text-2xl mb-2">צבי הנדלס</CardTitle>
                     <p className="text-muted-foreground text-lg">יושב ראש האיגוד</p>
                   </CardHeader>
                 </Card>
@@ -390,7 +395,7 @@ export default function HomePage() {
                           {activity.icon}
                         </svg>
                       </div>
-                      <CardTitle className="text-xl">{activity.title}</CardTitle>
+                      <CardTitle as="h3" className="text-xl">{activity.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-muted-foreground">{activity.description}</p>
@@ -411,7 +416,7 @@ export default function HomePage() {
                 <h2 id="join-heading" className="text-4xl md:text-5xl font-bold mb-6">
                   הצטרפות לאיגוד הבריכות הטיפוליות בישראל
                 </h2>
-                <p className="text-xl text-background/70 mb-12">
+                <p className="text-xl text-background/90 mb-12">
                   הצטרפו למסגרת הארצית המאגדת ומייצגת בריכות טיפוליות בישראל.
                 </p>
               </FadeIn>
@@ -434,14 +439,14 @@ export default function HomePage() {
                   <FadeInStaggerItem key={index}>
                     <div className="p-6 rounded-2xl bg-background/5 backdrop-blur">
                       <h4 className="font-bold text-lg mb-2">{benefit.title}</h4>
-                      <p className="text-background/70">{benefit.description}</p>
+                      <p className="text-background/90">{benefit.description}</p>
                     </div>
                   </FadeInStaggerItem>
                 ))}
               </FadeInStagger>
 
               <FadeIn delay={0.4}>
-                <p className="text-xl mb-8 text-background/80">
+                <p className="text-xl mb-8 text-background/95">
                   חברות באיגוד משקפת השתייכות למסגרת ענפית הפועלת לחיזוק
                   הבריכות הטיפוליות בישראל.
                 </p>

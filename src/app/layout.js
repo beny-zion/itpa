@@ -1,4 +1,5 @@
 import { Rubik } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const rubik = Rubik({
@@ -92,6 +93,14 @@ export default function RootLayout({ children }) {
           דלג לתוכן הראשי
         </a>
         {children}
+        {process.env.NEXT_PUBLIC_USERWAY_ACCOUNT_ID && (
+          <Script
+            id="userway-accessibility-widget"
+            strategy="afterInteractive"
+            src="https://cdn.userway.org/widget.js"
+            data-account={process.env.NEXT_PUBLIC_USERWAY_ACCOUNT_ID}
+          />
+        )}
       </body>
     </html>
   );

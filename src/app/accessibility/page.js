@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { ExternalLink } from "lucide-react";
 
 export const metadata = {
   title: "הצהרת נגישות | איגוד הבריכות הטיפוליות בישראל",
@@ -38,7 +39,8 @@ export default function AccessibilityPage() {
               <section>
                 <h2 className="text-2xl font-semibold text-foreground mb-4">רמת הנגישות</h2>
                 <p>
-                  האתר שואף לעמוד ברמת תאימות AA של תקן WCAG 2.1.
+                  האתר עומד בתקן WCAG 2.1 ברמה AA, עם פרטים נבחרים העומדים גם ברמת AAA
+                  (ניגודיות טקסט מורחבת, חיווי ויזואלי לקישורים חיצוניים).
                   אנו ממשיכים לפעול לשיפור הנגישות ולעדכון האתר בהתאם להנחיות העדכניות ביותר.
                 </p>
               </section>
@@ -47,18 +49,21 @@ export default function AccessibilityPage() {
                 <h2 className="text-2xl font-semibold text-foreground mb-4">התאמות הנגישות באתר</h2>
                 <p className="mb-4">באתר בוצעו ההתאמות הבאות:</p>
                 <ul className="list-disc list-inside space-y-2">
+                  <li>תפריט נגישות (UserWay) המאפשר התאמות אישיות: הגדלת טקסט, ניגודיות גבוהה, הדגשת קישורים, השהיית אנימציות ועוד</li>
                   <li>מבנה סמנטי תקין של כותרות ותוכן (h1-h3, sections, nav, main, footer)</li>
                   <li>תמיכה מלאה בניווט מקלדת, כולל סגירת תפריטים באמצעות מקש Escape</li>
                   <li>טקסט חלופי (alt) לכל התמונות</li>
                   <li>קישור &quot;דלג לתוכן הראשי&quot; לניווט מהיר</li>
-                  <li>תוויות נגישות לטפסים (labels, aria-required)</li>
+                  <li>תוויות נגישות לטפסים (labels, aria-required, aria-describedby להודעות סטטוס)</li>
                   <li>תמיכה מלאה בכיוון RTL (עברית)</li>
                   <li>סימון ARIA לאזורים, אלמנטים אינטראקטיביים וסטטוס דינמי</li>
-                  <li>הודעות סטטוס נגישות (aria-live) לעדכונים דינמיים</li>
-                  <li>ניגודיות צבעים העומדת בתקן WCAG AA</li>
+                  <li>הודעות סטטוס נגישות (aria-live, role=&quot;alert&quot;) לעדכונים דינמיים</li>
+                  <li>ניגודיות צבעים העומדת בתקן WCAG AA, חלקים נבחרים ברמת AAA</li>
                   <li>תמיכה בהעדפת הפחתת תנועה (prefers-reduced-motion) - ביטול אנימציות למשתמשים שהגדירו זאת</li>
-                  <li>סימון קישורים חיצוניים הנפתחים בחלון חדש</li>
+                  <li>סימון ויזואלי וסמנטי לקישורים חיצוניים הנפתחים בחלון חדש</li>
                   <li>סימון העמוד הנוכחי בתפריט הניווט</li>
+                  <li>קישורי ניווט מובחנים בקו תחתון בעת מעבר עכבר/פוקוס מקלדת</li>
+                  <li>הודעות שגיאה והצלחה בטפסים מסומנות באייקון ובצבע (לא הסתמכות על צבע בלבד)</li>
                 </ul>
               </section>
 
@@ -131,9 +136,10 @@ export default function AccessibilityPage() {
                       href="https://www.gov.il/he/departments/units/commission-for-equal-rights-of-persons-with-disabilities"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-primary hover:underline"
+                      className="text-primary hover:underline inline-flex items-center gap-1"
                     >
                       נציבות שוויון זכויות לאנשים עם מוגבלות
+                      <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                       <span className="sr-only"> (נפתח בחלון חדש)</span>
                     </a>
                   </li>
@@ -141,7 +147,7 @@ export default function AccessibilityPage() {
               </section>
 
               <p className="text-sm mt-8">
-                הצהרה זו עודכנה לאחרונה: פברואר 2026
+                הצהרה זו עודכנה לאחרונה: מאי 2026
               </p>
             </div>
           </div>

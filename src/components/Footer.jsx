@@ -17,7 +17,7 @@ export default function Footer() {
                 className="h-12 w-12 brightness-0 invert"
               />
             </Link>
-            <p className="text-background/70 leading-relaxed">
+            <p className="text-background/90 leading-relaxed">
               הגוף הארצי המאגד את הבריכות והמוסדות לטיפול במים בישראל, ופועל לחיזוק התשתית המוסדית של התחום.
             </p>
           </div>
@@ -30,7 +30,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/#about"
-                    className="text-background/70 hover:text-primary transition-colors"
+                    className="text-background/90 hover:text-primary underline underline-offset-4 decoration-transparent hover:decoration-current transition-colors"
                   >
                     אודות
                   </Link>
@@ -38,7 +38,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/#goals"
-                    className="text-background/70 hover:text-primary transition-colors"
+                    className="text-background/90 hover:text-primary underline underline-offset-4 decoration-transparent hover:decoration-current transition-colors"
                   >
                     מטרות
                   </Link>
@@ -46,7 +46,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/#activities"
-                    className="text-background/70 hover:text-primary transition-colors"
+                    className="text-background/90 hover:text-primary underline underline-offset-4 decoration-transparent hover:decoration-current transition-colors"
                   >
                     תחומי פעילות
                   </Link>
@@ -63,7 +63,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/#pools"
-                    className="text-background/70 hover:text-primary transition-colors"
+                    className="text-background/90 hover:text-primary underline underline-offset-4 decoration-transparent hover:decoration-current transition-colors"
                   >
                     מאגר בריכות
                   </Link>
@@ -71,7 +71,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/#join"
-                    className="text-background/70 hover:text-primary transition-colors"
+                    className="text-background/90 hover:text-primary underline underline-offset-4 decoration-transparent hover:decoration-current transition-colors"
                   >
                     הצטרפות לאיגוד
                   </Link>
@@ -79,7 +79,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/contact"
-                    className="text-background/70 hover:text-primary transition-colors"
+                    className="text-background/90 hover:text-primary underline underline-offset-4 decoration-transparent hover:decoration-current transition-colors"
                   >
                     צור קשר
                   </Link>
@@ -96,7 +96,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/terms"
-                    className="text-background/70 hover:text-primary transition-colors"
+                    className="text-background/90 hover:text-primary underline underline-offset-4 decoration-transparent hover:decoration-current transition-colors"
                   >
                     תקנון האיגוד
                   </Link>
@@ -104,7 +104,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/privacy"
-                    className="text-background/70 hover:text-primary transition-colors"
+                    className="text-background/90 hover:text-primary underline underline-offset-4 decoration-transparent hover:decoration-current transition-colors"
                   >
                     מדיניות פרטיות
                   </Link>
@@ -112,7 +112,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/accessibility"
-                    className="text-background/70 hover:text-primary transition-colors"
+                    className="text-background/90 hover:text-primary underline underline-offset-4 decoration-transparent hover:decoration-current transition-colors"
                   >
                     הצהרת נגישות
                   </Link>
@@ -124,12 +124,12 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-background/10 mt-8 pt-4 flex flex-col md:flex-row justify-between items-center gap-2">
-          <p className="text-background/50 text-sm">
+          <p className="text-background/85 text-sm">
             © {new Date().getFullYear()} איגוד הבריכות הטיפוליות בישראל. כל הזכויות שמורות.
           </p>
           <a
             href="mailto:office@itpa.org.il"
-            className="text-background/50 hover:text-primary transition-colors text-sm"
+            className="text-background/85 hover:text-primary underline underline-offset-4 decoration-transparent hover:decoration-current transition-colors text-sm"
           >
             office@itpa.org.il
           </a>
@@ -137,10 +137,10 @@ export default function Footer() {
             href="https://beny-zion-dev.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
-            aria-label="Beny Zion Dev - פיתוח האתר"
+            className="flex items-center gap-1.5 hover:text-primary transition-colors"
+            aria-label="Beny Zion Dev - פיתוח האתר (נפתח בחלון חדש)"
           >
-            <span className="text-background/40 text-xs">Developed by</span>
+            <span className="text-background/90 text-sm">Developed by</span>
             <Image
               src="/beny-zion-dev.svg"
               alt="Beny Zion Dev"
@@ -148,6 +148,7 @@ export default function Footer() {
               height={24}
               className="h-6 w-6 drop-shadow-[0_0_6px_rgba(255,255,255,0.5)]"
             />
+            <span className="sr-only"> (נפתח בחלון חדש)</span>
           </a>
         </div>
       </div>
