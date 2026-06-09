@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import dynamic from "next/dynamic";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,12 +14,26 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FadeIn, FadeInStagger, FadeInStaggerItem } from "@/components/FadeIn";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Map as MapIcon, List as ListIcon } from "lucide-react";
+
+// Leaflet עובד רק בצד הלקוח — טעינה דינמית ללא SSR
+const PoolMap = dynamic(() => import("@/components/PoolMap"), {
+  ssr: false,
+  loading: () => (
+    <div
+      className="rounded-2xl bg-white shadow-sm border border-border flex items-center justify-center"
+      style={{ height: "70vh", minHeight: 420 }}
+    >
+      <p className="text-muted-foreground" role="status">טוען מפה...</p>
+    </div>
+  ),
+});
 
 export default function PoolsIndex({ pools }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCity, setSelectedCity] = useState("all");
   const [accessibleOnly, setAccessibleOnly] = useState(false);
+  const [viewMode, setViewMode] = useState("map");
 
   const safePools = Array.isArray(pools) ? pools : [];
 
@@ -123,13 +138,55 @@ export default function PoolsIndex({ pools }) {
           </div>
         </FadeIn>
 
-        {/* Results count */}
-        <p className="text-sm text-muted-foreground mb-6" aria-live="polite">
-          נמצאו <span className="font-semibold text-foreground">{filteredPools.length}</span> בריכות
-        </p>
+        {/* Results count + view toggle */}
+        <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <p className="text-sm text-muted-foreground" aria-live="polite">
+            נמצאו <span className="font-semibold text-foreground">{filteredPools.length}</span> בריכות
+          </p>
+
+          <div
+            className="inline-flex rounded-full bg-white border border-border p-1 shadow-sm"
+            role="group"
+            aria-label="בחירת תצוגה"
+          >
+            <button
+              type="button"
+              onClick={() => setViewMode("map")}
+              aria-pressed={viewMode === "map"}
+              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                viewMode === "map"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <MapIcon className="h-4 w-4" aria-hidden="true" />
+              מפה
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("list")}
+              aria-pressed={viewMode === "list"}
+              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                viewMode === "list"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <ListIcon className="h-4 w-4" aria-hidden="true" />
+              רשימה
+            </button>
+          </div>
+        </div>
+
+        {/* Map View */}
+        {viewMode === "map" && (
+          <FadeIn>
+            <PoolMap pools={filteredPools} />
+          </FadeIn>
+        )}
 
         {/* Pools Grid */}
-        {filteredPools.length > 0 ? (
+        {viewMode === "list" && (filteredPools.length > 0 ? (
           <FadeInStagger
             key={`${searchTerm}-${selectedCity}-${accessibleOnly}`}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -263,7 +320,7 @@ export default function PoolsIndex({ pools }) {
               לא נמצאו בריכות התואמות את החיפוש
             </p>
           </div>
-        )}
+        ))}
       </div>
     </section>
   );

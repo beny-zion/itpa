@@ -35,6 +35,8 @@ const emptyPool = {
   website: "",
   treatments: [],
   isAccessible: false,
+  lat: "",
+  lng: "",
 };
 
 const subjectLabels = {
@@ -191,6 +193,8 @@ export default function AdminPage() {
         .split(",")
         .map((t) => t.trim())
         .filter((t) => t),
+      lat: formData.lat === "" || formData.lat == null ? null : parseFloat(formData.lat),
+      lng: formData.lng === "" || formData.lng == null ? null : parseFloat(formData.lng),
     };
 
     try {
@@ -880,6 +884,40 @@ export default function AdminPage() {
                 dir="ltr"
               />
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="lat">קו רוחב (lat)</Label>
+                <Input
+                  id="lat"
+                  name="lat"
+                  type="number"
+                  step="any"
+                  value={formData.lat ?? ""}
+                  onChange={handleInputChange}
+                  placeholder="31.7683"
+                  dir="ltr"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="lng">קו אורך (lng)</Label>
+                <Input
+                  id="lng"
+                  name="lng"
+                  type="number"
+                  step="any"
+                  value={formData.lng ?? ""}
+                  onChange={handleInputChange}
+                  placeholder="35.2137"
+                  dir="ltr"
+                />
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground -mt-2">
+              קואורדינטות למיקום על המפה. מתמלאות אוטומטית על־ידי סקריפט ה־geocoding,
+              או ניתן להעתיק מ־Google Maps (לחיצה ימנית על המיקום → המספרים הראשונים).
+            </p>
 
             <div className="space-y-2">
               <Label htmlFor="treatments">

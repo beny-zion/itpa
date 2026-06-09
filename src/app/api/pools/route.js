@@ -22,6 +22,8 @@ export async function GET() {
       website: pool.website || "",
       treatments: pool.treatments || [],
       isAccessible: pool.is_accessible,
+      lat: pool.lat ?? null,
+      lng: pool.lng ?? null,
     }));
 
     return NextResponse.json(pools);
@@ -47,6 +49,8 @@ export async function POST(request) {
         website: newPool.website || "",
         treatments: newPool.treatments || [],
         is_accessible: newPool.isAccessible || false,
+        lat: newPool.lat ?? null,
+        lng: newPool.lng ?? null,
       })
       .select()
       .single();
@@ -63,6 +67,8 @@ export async function POST(request) {
       website: data.website || "",
       treatments: data.treatments || [],
       isAccessible: data.is_accessible,
+      lat: data.lat ?? null,
+      lng: data.lng ?? null,
     };
 
     return NextResponse.json(createdPool, { status: 201 });
@@ -88,6 +94,8 @@ export async function PUT(request) {
         website: updatedPool.website || "",
         treatments: updatedPool.treatments || [],
         is_accessible: updatedPool.isAccessible || false,
+        lat: updatedPool.lat ?? null,
+        lng: updatedPool.lng ?? null,
       })
       .eq("id", parseInt(updatedPool.id))
       .select()
@@ -105,6 +113,8 @@ export async function PUT(request) {
       website: data.website || "",
       treatments: data.treatments || [],
       isAccessible: data.is_accessible,
+      lat: data.lat ?? null,
+      lng: data.lng ?? null,
     };
 
     return NextResponse.json(pool);
