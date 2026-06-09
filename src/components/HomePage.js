@@ -21,11 +21,14 @@ import {
   MessagesSquare,
 } from "lucide-react";
 
-export default function HomePage() {
-  const [pools, setPools] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+export default function HomePage({ initialPools = [] }) {
+  const [pools, setPools] = useState(initialPools);
+  const [isLoading, setIsLoading] = useState(initialPools.length === 0);
 
   useEffect(() => {
+    // Pools were already rendered on the server — no client fetch needed
+    if (initialPools.length > 0) return;
+
     async function fetchPools() {
       try {
         const response = await fetch("/api/pools");
@@ -38,7 +41,7 @@ export default function HomePage() {
       }
     }
     fetchPools();
-  }, []);
+  }, [initialPools.length]);
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />

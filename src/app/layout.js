@@ -62,21 +62,48 @@ export const metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "איגוד הבריכות הטיפוליות בישראל",
-  alternateName: "ITPA - Israel Therapeutic Pools Association",
-  url: "https://www.itpa.org.il",
-  logo: "https://www.itpa.org.il/bti_logo.svg",
-  email: "office@itpa.org.il",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "אליעזר בן הורקנוס 8",
-    addressLocality: "אשדוד",
-    addressCountry: "IL",
-  },
-  description:
-    "הגוף הארצי המאגד בריכות טיפוליות בישראל. פועל לקידום הידרותרפיה, שיקום במים, סטנדרטים מקצועיים ורגולציה בתחום הבריכות הטיפוליות.",
-  sameAs: [],
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.itpa.org.il/#organization",
+      name: "איגוד הבריכות הטיפוליות בישראל",
+      alternateName: "ITPA - Israel Therapeutic Pools Association",
+      url: "https://www.itpa.org.il",
+      logo: "https://www.itpa.org.il/bti_logo.svg",
+      email: "office@itpa.org.il",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "אליעזר בן הורקנוס 8",
+        addressLocality: "אשדוד",
+        addressCountry: "IL",
+      },
+      areaServed: {
+        "@type": "Country",
+        name: "ישראל",
+      },
+      knowsAbout: [
+        "בריכות טיפוליות",
+        "הידרותרפיה",
+        "שיקום במים",
+        "פיזיותרפיה במים",
+        "אקווה תרפיה",
+        "טיפול במים",
+      ],
+      description:
+        "הגוף הארצי המאגד בריכות טיפוליות בישראל. פועל לקידום הידרותרפיה, שיקום במים, סטנדרטים מקצועיים ורגולציה בתחום הבריכות הטיפוליות.",
+      sameAs: [],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.itpa.org.il/#website",
+      url: "https://www.itpa.org.il",
+      name: "בריכות טיפוליות בישראל – איגוד הבריכות הטיפוליות",
+      description:
+        "מאגר ארצי של בריכות טיפוליות בישראל ומידע על הידרותרפיה ושיקום במים.",
+      inLanguage: "he-IL",
+      publisher: { "@id": "https://www.itpa.org.il/#organization" },
+    },
+  ],
 };
 
 export default function RootLayout({ children }) {
