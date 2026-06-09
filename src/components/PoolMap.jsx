@@ -11,8 +11,8 @@ const poolIcon = L.divIcon({
   className: "pool-marker",
   html: `
     <svg width="32" height="42" viewBox="0 0 32 42" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M16 0C7.16 0 0 7.16 0 16c0 11 16 26 16 26s16-15 16-26C32 7.16 24.84 0 16 0z" fill="#0D9488"/>
-      <circle cx="16" cy="16" r="6" fill="#ffffff"/>
+      <path d="M16 0C7.16 0 0 7.16 0 16c0 11 16 26 16 26s16-15 16-26C32 7.16 24.84 0 16 0z" fill="#0A3D62"/>
+      <circle cx="16" cy="16" r="6" fill="#4BB8C9"/>
     </svg>`,
   iconSize: [32, 42],
   iconAnchor: [16, 42],

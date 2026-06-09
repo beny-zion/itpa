@@ -110,17 +110,16 @@ export default function Header() {
             ))}
           </ul>
 
-          <div className="hidden md:flex items-center gap-3">
-            <Button
-              asChild
-              variant="ghost"
-              className="rounded-full px-6"
+          <div className="hidden md:flex items-center gap-5">
+            <Link
+              href={getSectionHref("#pools")}
+              className="text-sm font-medium text-foreground link-underline"
             >
-              <Link href={getSectionHref("#pools")}>איתור בריכה</Link>
-            </Button>
+              איתור בריכה
+            </Link>
             <Button
               asChild
-              className="rounded-full px-6 btn-premium"
+              className="px-6 btn-ink"
             >
               <Link href={getSectionHref("#join")}>הצטרפות</Link>
             </Button>
@@ -184,12 +183,12 @@ export default function Header() {
                 </li>
               ))}
               <li className="flex flex-col gap-3 pt-4 border-t">
-                <Button asChild variant="outline" className="w-full rounded-full">
+                <Button asChild variant="outline" className="w-full btn-line border-primary/30 text-primary">
                   <Link href={getSectionHref("#pools")} onClick={() => setIsMenuOpen(false)}>
                     איתור בריכה
                   </Link>
                 </Button>
-                <Button asChild className="w-full rounded-full">
+                <Button asChild className="w-full btn-ink">
                   <Link href={getSectionHref("#join")} onClick={() => setIsMenuOpen(false)}>
                     הצטרפות לאיגוד
                   </Link>

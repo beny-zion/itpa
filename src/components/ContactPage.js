@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CONTACT_SUBJECTS } from "@/lib/contact-subjects";
+import { Mail, MapPin, Clock } from "lucide-react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -76,11 +77,23 @@ export default function ContactPage() {
     <div className="flex flex-col min-h-screen">
       <Header />
 
-      <main id="main-content" className="flex-1 py-16">
-        <div className="container mx-auto px-4">
+      <main id="main-content" className="flex-1 py-24 pt-32 bg-background relative overflow-hidden">
+        {/* Decorative water orb */}
+        <div
+          className="absolute -top-20 -left-28 h-96 w-96 rounded-full animate-float pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(75,184,201,0.16), transparent 70%)" }}
+          aria-hidden="true"
+        />
+        <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold mb-4">צור קשר</h1>
+              <div className="flex items-center justify-center gap-2.5 mb-4">
+                <span className="h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
+                <span className="text-sm font-semibold tracking-wide text-primary">
+                  נשמח לעזור
+                </span>
+              </div>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">צור קשר</h1>
               <p className="text-lg text-muted-foreground">
                 נשמח לשמוע מכם ולענות על כל שאלה
               </p>
@@ -235,7 +248,7 @@ export default function ContactPage() {
                     <Button
                       type="submit"
                       size="lg"
-                      className="w-full md:w-auto"
+                      className="w-full md:w-auto btn-ink px-8"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? "שולח..." : "שליחת הודעה"}
@@ -252,14 +265,7 @@ export default function ContactPage() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex items-start gap-3">
-                      <svg
-                        className="h-5 w-5 text-primary mt-0.5 shrink-0"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                      >
-                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                      </svg>
+                      <Mail className="h-5 w-5 text-primary mt-0.5 shrink-0" strokeWidth={1.75} aria-hidden="true" />
                       <div>
                         <p className="font-medium">דוא״ל</p>
                         <a
@@ -272,14 +278,7 @@ export default function ContactPage() {
                     </div>
 
                     <div className="flex items-start gap-3">
-                      <svg
-                        className="h-5 w-5 text-primary mt-0.5 shrink-0"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                      >
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                      </svg>
+                      <MapPin className="h-5 w-5 text-primary mt-0.5 shrink-0" strokeWidth={1.75} aria-hidden="true" />
                       <div>
                         <p className="font-medium">כתובת</p>
                         <p className="text-muted-foreground">
@@ -292,7 +291,10 @@ export default function ContactPage() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">שעות פעילות</CardTitle>
+                    <CardTitle className="text-lg inline-flex items-center gap-2">
+                      <Clock className="h-5 w-5 text-primary" strokeWidth={1.75} aria-hidden="true" />
+                      שעות פעילות
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <dl className="space-y-2 text-sm">

@@ -47,74 +47,77 @@
 }
 
 :root {
-  --radius: 0.75rem;
-  /* Premium clean design - white, black, teal accents */
-  --background: #FAFBFC;
-  --foreground: #0F172A;
+  --radius: 0.5rem;
+  /* Deep-water, minimal design — cool white, deep-sea blue, aqua accent */
+  --background: #F5F9FB;
+  --foreground: #0F2A3A;
   --card: #FFFFFF;
-  --card-foreground: #0F172A;
+  --card-foreground: #0F2A3A;
   --popover: #FFFFFF;
-  --popover-foreground: #0F172A;
-  /* Teal/cyan primary - fresh water feel */
-  --primary: #0D9488;
+  --popover-foreground: #0F2A3A;
+  /* Deep-sea blue primary */
+  --primary: #0A3D62;
   --primary-foreground: #FFFFFF;
-  --secondary: #F1F5F9;
-  --secondary-foreground: #0F172A;
-  --muted: #F8FAFC;
-  --muted-foreground: #475569;
-  --accent: #14B8A6;
-  --accent-foreground: #FFFFFF;
+  --secondary: #EAF1F5;
+  --secondary-foreground: #0F2A3A;
+  --muted: #F0F5F8;
+  --muted-foreground: #5A6B75;
+  /* Aqua accent — bright water highlight (decorative use) */
+  --accent: #4BB8C9;
+  --accent-foreground: #07333F;
+  /* Darker aqua for text emphasis on light backgrounds (WCAG AA safe) */
+  --accent-strong: #1C6E8C;
   --destructive: #EF4444;
-  --border: #E2E8F0;
-  --input: #E2E8F0;
-  --ring: #0D9488;
-  --chart-1: #0D9488;
-  --chart-2: #14B8A6;
-  --chart-3: #2DD4BF;
-  --chart-4: #5EEAD4;
-  --chart-5: #99F6E4;
+  --border: #DCE7EC;
+  --input: #DCE7EC;
+  --ring: #4BB8C9;
+  --chart-1: #0A3D62;
+  --chart-2: #1C6E8C;
+  --chart-3: #2E9CB0;
+  --chart-4: #4BB8C9;
+  --chart-5: #8FD9E3;
   --sidebar: #FFFFFF;
-  --sidebar-foreground: #0F172A;
-  --sidebar-primary: #0D9488;
+  --sidebar-foreground: #0F2A3A;
+  --sidebar-primary: #0A3D62;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F1F5F9;
-  --sidebar-accent-foreground: #0F172A;
-  --sidebar-border: #E2E8F0;
-  --sidebar-ring: #0D9488;
+  --sidebar-accent: #EAF1F5;
+  --sidebar-accent-foreground: #0F2A3A;
+  --sidebar-border: #DCE7EC;
+  --sidebar-ring: #4BB8C9;
 }
 
 .dark {
-  --background: #0F172A;
-  --foreground: #F8FAFC;
-  --card: #1E293B;
-  --card-foreground: #F8FAFC;
-  --popover: #1E293B;
-  --popover-foreground: #F8FAFC;
-  --primary: #14B8A6;
-  --primary-foreground: #0F172A;
-  --secondary: #334155;
-  --secondary-foreground: #F8FAFC;
-  --muted: #1E293B;
-  --muted-foreground: #94A3B8;
-  --accent: #2DD4BF;
-  --accent-foreground: #0F172A;
+  --background: #07222F;
+  --foreground: #EAF4F8;
+  --card: #0E2E3D;
+  --card-foreground: #EAF4F8;
+  --popover: #0E2E3D;
+  --popover-foreground: #EAF4F8;
+  --primary: #4BB8C9;
+  --primary-foreground: #07222F;
+  --secondary: #143A4A;
+  --secondary-foreground: #EAF4F8;
+  --muted: #0E2E3D;
+  --muted-foreground: #8FA9B5;
+  --accent: #6FD0DE;
+  --accent-foreground: #07222F;
   --destructive: #F87171;
-  --border: #334155;
-  --input: #334155;
-  --ring: #14B8A6;
-  --chart-1: #14B8A6;
-  --chart-2: #2DD4BF;
-  --chart-3: #5EEAD4;
-  --chart-4: #99F6E4;
-  --chart-5: #CCFBF1;
-  --sidebar: #1E293B;
-  --sidebar-foreground: #F8FAFC;
-  --sidebar-primary: #14B8A6;
-  --sidebar-primary-foreground: #0F172A;
-  --sidebar-accent: #334155;
-  --sidebar-accent-foreground: #F8FAFC;
-  --sidebar-border: #334155;
-  --sidebar-ring: #14B8A6;
+  --border: #1B4254;
+  --input: #1B4254;
+  --ring: #4BB8C9;
+  --chart-1: #4BB8C9;
+  --chart-2: #2E9CB0;
+  --chart-3: #1C6E8C;
+  --chart-4: #8FD9E3;
+  --chart-5: #C7ECF2;
+  --sidebar: #0E2E3D;
+  --sidebar-foreground: #EAF4F8;
+  --sidebar-primary: #4BB8C9;
+  --sidebar-primary-foreground: #07222F;
+  --sidebar-accent: #143A4A;
+  --sidebar-accent-foreground: #EAF4F8;
+  --sidebar-border: #1B4254;
+  --sidebar-ring: #4BB8C9;
 }
 
 @layer base {
@@ -191,6 +194,11 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-backdrop-filter: blur(12px);
 }
 
+/* Darker-aqua text emphasis — AA-safe on light backgrounds */
+.text-accent-strong {
+  color: var(--accent-strong);
+}
+
 /* Gradient text */
 .gradient-text {
   background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
@@ -260,4 +268,109 @@ h1, h2, h3, h4, h5, h6 {
 .section-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+
+/* ============================================================
+   Deep-water motion system — subtle, calm, water-inspired.
+   All animations are disabled under prefers-reduced-motion
+   via the global rule above.
+   ============================================================ */
+
+/* Gentle vertical float — for decorative water orbs */
+@keyframes water-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-18px) scale(1.03); }
+}
+.animate-float {
+  animation: water-float 9s ease-in-out infinite;
+}
+.animate-float-slow {
+  animation: water-float 14s ease-in-out infinite;
+}
+
+/* Slow horizontal drift — for layered wave shapes */
+@keyframes water-drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-25%); }
+}
+.animate-drift {
+  animation: water-drift 22s linear infinite;
+}
+
+/* Expanding ripple ring */
+@keyframes ripple {
+  0% { transform: scale(0.6); opacity: 0.5; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.animate-ripple {
+  animation: ripple 3.5s ease-out infinite;
+}
+
+/* Soft surface shimmer — slow aqua sheen drifting across a gradient */
+@keyframes surface-sheen {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-sheen {
+  background-size: 200% 200%;
+  animation: surface-sheen 12s ease infinite;
+}
+
+/* Animated underline reveal for nav/links (RTL-aware via right origin) */
+.link-underline {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 2px;
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.21, 0.47, 0.32, 0.98);
+  padding-bottom: 2px;
+}
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 2px;
+}
+
+/* ============================================================
+   Minimal button language (squared, calm) — option C inspired
+   ============================================================ */
+.btn-ink {
+  border-radius: 2px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+.btn-ink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -10px var(--primary);
+}
+.btn-line {
+  position: relative;
+  border-radius: 2px;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+/* Marker drop-in for the map */
+@keyframes marker-drop {
+  0% { transform: translateY(-20px); opacity: 0; }
+  60% { transform: translateY(3px); opacity: 1; }
+  100% { transform: translateY(0); }
+}
+.pool-marker svg {
+  animation: marker-drop 0.5s cubic-bezier(0.21, 0.47, 0.32, 0.98) both;
+  filter: drop-shadow(0 4px 6px rgba(10, 61, 98, 0.35));
+  transition: transform 0.2s ease;
+}
+.pool-marker:hover svg {
+  transform: scale(1.12);
+}
+
+/* Leaflet popup — match brand */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  box-shadow: 0 18px 40px -12px rgba(10, 61, 98, 0.3) !important;
+}
+.leaflet-popup-content {
+  margin: 14px 16px !important;
+}
+.leaflet-container {
+  font-family: var(--font-rubik), system-ui, sans-serif !important;
 }

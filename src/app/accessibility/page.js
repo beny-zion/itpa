@@ -15,11 +15,12 @@ export default function AccessibilityPage() {
       <main id="main-content" className="flex-1 py-24 pt-32">
         <div className="container mx-auto px-6 md:px-12 lg:px-20">
           <div className="max-w-3xl mx-auto">
-            <h1 className="text-4xl font-bold mb-8">הצהרת נגישות</h1>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">הצהרת נגישות</h1>
+            <div className="h-1 w-16 bg-accent rounded-full mt-4 mb-10" aria-hidden="true" />
 
             <div className="prose prose-lg max-w-none space-y-8 text-muted-foreground">
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">מחויבות לנגישות</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">מחויבות לנגישות</h2>
                 <p>
                   איגוד הבריכות הטיפוליות בישראל מחויב להנגשת האתר לאנשים עם מוגבלויות,
                   מתוך אמונה כי לכל אדם הזכות לגישה שוויונית למידע ולשירותים מקוונים.
@@ -28,7 +29,7 @@ export default function AccessibilityPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">תקן הנגישות</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">תקן הנגישות</h2>
                 <p>
                   אנו פועלים להנגשת האתר בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות
                   (התאמות נגישות לשירות), התשע&quot;ג-2013, ובהתאם לתקן הישראלי ת&quot;י 5568
@@ -37,7 +38,7 @@ export default function AccessibilityPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">רמת הנגישות</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">רמת הנגישות</h2>
                 <p>
                   האתר עומד בתקן WCAG 2.1 ברמה AA, עם פרטים נבחרים העומדים גם ברמת AAA
                   (ניגודיות טקסט מורחבת, חיווי ויזואלי לקישורים חיצוניים).
@@ -46,7 +47,7 @@ export default function AccessibilityPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">התאמות הנגישות באתר</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">התאמות הנגישות באתר</h2>
                 <p className="mb-4">באתר בוצעו ההתאמות הבאות:</p>
                 <ul className="list-disc list-inside space-y-2">
                   <li>תפריט נגישות (UserWay) המאפשר התאמות אישיות: הגדלת טקסט, ניגודיות גבוהה, הדגשת קישורים, השהיית אנימציות ועוד</li>
@@ -68,7 +69,7 @@ export default function AccessibilityPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">טכנולוגיות נתמכות</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">טכנולוגיות נתמכות</h2>
                 <p>האתר נבדק ונתמך בדפדפנים הבאים:</p>
                 <ul className="list-disc list-inside space-y-2 mt-2">
                   <li>Google Chrome (גרסה אחרונה)</li>
@@ -79,7 +80,7 @@ export default function AccessibilityPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">קוראי מסך</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">קוראי מסך</h2>
                 <p>
                   האתר נבנה תוך שימוש בתגיות סמנטיות ותכונות ARIA התומכות בקוראי מסך נפוצים
                   כגון NVDA, JAWS, VoiceOver ו-TalkBack.
@@ -87,7 +88,7 @@ export default function AccessibilityPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">מגבלות נגישות ידועות</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">מגבלות נגישות ידועות</h2>
                 <p>
                   למרות מאמצינו להנגיש את כל העמודים באתר, ייתכן שחלקים מסוימים טרם הונגשו
                   באופן מלא. אנו ממשיכים לפעול לאיתור ותיקון בעיות נגישות. אם נתקלתם בבעיה,
@@ -96,7 +97,7 @@ export default function AccessibilityPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">רכז/ת נגישות</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">רכז/ת נגישות</h2>
                 <p className="mb-4">
                   לפניות בנושא נגישות ניתן לפנות לרכז/ת הנגישות של האיגוד:
                 </p>
@@ -114,7 +115,7 @@ export default function AccessibilityPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">דרכי פנייה בנושא נגישות</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">דרכי פנייה בנושא נגישות</h2>
                 <p>
                   אם נתקלתם בבעיית נגישות באתר, או אם יש לכם הצעות לשיפור הנגישות, נשמח לשמוע מכם.
                   אנו מתחייבים לטפל בכל פנייה בנושא נגישות בתוך 7 ימי עסקים.

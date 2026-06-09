@@ -145,7 +145,7 @@ export default function PoolsIndex({ pools }) {
           </p>
 
           <div
-            className="inline-flex rounded-full bg-white border border-border p-1 shadow-sm"
+            className="inline-flex rounded-md bg-white border border-border p-1"
             role="group"
             aria-label="בחירת תצוגה"
           >
@@ -153,7 +153,7 @@ export default function PoolsIndex({ pools }) {
               type="button"
               onClick={() => setViewMode("map")}
               aria-pressed={viewMode === "map"}
-              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              className={`inline-flex items-center gap-2 rounded-sm px-4 py-2 text-sm font-medium transition-colors ${
                 viewMode === "map"
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground"
@@ -166,7 +166,7 @@ export default function PoolsIndex({ pools }) {
               type="button"
               onClick={() => setViewMode("list")}
               aria-pressed={viewMode === "list"}
-              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              className={`inline-flex items-center gap-2 rounded-sm px-4 py-2 text-sm font-medium transition-colors ${
                 viewMode === "list"
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground"

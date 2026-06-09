@@ -9,6 +9,17 @@ import PoolsIndex from "@/components/PoolsIndex";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FadeIn, FadeInStagger, FadeInStaggerItem, ScaleIn } from "@/components/FadeIn";
+import {
+  Globe2,
+  Landmark,
+  BadgeCheck,
+  Scale,
+  ClipboardCheck,
+  HeartPulse,
+  Users,
+  Compass,
+  MessagesSquare,
+} from "lucide-react";
 
 export default function HomePage() {
   const [pools, setPools] = useState([]);
@@ -33,20 +44,44 @@ export default function HomePage() {
       <Header />
 
       <main id="main-content" className="flex-1">
-        {/* Hero Section - Premium Design */}
+        {/* Hero Section - Deep-water, minimal */}
         <section
-          className="relative min-h-[90vh] flex items-center bg-white"
+          className="relative min-h-[92vh] flex items-center bg-background overflow-hidden"
           aria-labelledby="hero-heading"
         >
-          <div className="container mx-auto px-6 md:px-12 lg:px-20 py-20 pt-32">
+          {/* Decorative water orbs — gentle float */}
+          <div
+            className="absolute -top-24 -left-32 h-[28rem] w-[28rem] rounded-full animate-float pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(75,184,201,0.20), transparent 68%)" }}
+            aria-hidden="true"
+          />
+          <div
+            className="absolute top-1/3 -right-24 h-96 w-96 rounded-full animate-float-slow pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(10,61,98,0.12), transparent 70%)" }}
+            aria-hidden="true"
+          />
+
+          <div className="container mx-auto px-6 md:px-12 lg:px-20 py-20 pt-32 relative z-10">
             <div className="max-w-4xl">
+              <FadeIn delay={0.05}>
+                <div className="flex items-center gap-2.5 mb-7">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-accent animate-ripple" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent" />
+                  </span>
+                  <span className="text-sm font-semibold tracking-wide text-primary">
+                    הגוף הארצי לבריכות טיפוליות
+                  </span>
+                </div>
+              </FadeIn>
+
               <FadeIn delay={0.1}>
                 <h1
                   id="hero-heading"
-                  className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tight leading-[1.1]"
+                  className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tight leading-[1.05]"
                 >
                   איגוד הבריכות{" "}
-                  <span className="text-muted-foreground">הטיפוליות בישראל</span>
+                  <span className="text-accent-strong">הטיפוליות בישראל</span>
                 </h1>
               </FadeIn>
 
@@ -59,11 +94,11 @@ export default function HomePage() {
               </FadeIn>
 
               <FadeIn delay={0.4}>
-                <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-5 relative z-10">
                   <Button
                     asChild
                     size="lg"
-                    className="text-lg px-8 py-6 rounded-full btn-premium font-medium"
+                    className="text-lg px-9 py-6 btn-ink font-medium"
                   >
                     <Link href="#join">הצטרפות לאיגוד</Link>
                   </Button>
@@ -71,25 +106,28 @@ export default function HomePage() {
                     asChild
                     size="lg"
                     variant="outline"
-                    className="text-lg px-8 py-6 rounded-full border-2 border-foreground text-foreground hover:bg-foreground hover:text-background font-medium"
+                    className="text-lg px-9 py-6 btn-line border border-primary/30 bg-transparent text-primary hover:border-primary hover:bg-primary/5 font-medium"
                   >
                     <Link href="#pools">איתור בריכה טיפולית</Link>
                   </Button>
-                  <Button
-                    asChild
-                    size="lg"
-                    variant="ghost"
-                    className="text-lg px-8 py-6 rounded-full text-foreground hover:bg-muted font-medium"
+                  <Link
+                    href="/contact"
+                    className="text-lg font-medium text-foreground link-underline self-start sm:self-auto"
                   >
-                    <Link href="/contact">יצירת קשר</Link>
-                  </Button>
+                    יצירת קשר ←
+                  </Link>
                 </div>
               </FadeIn>
             </div>
           </div>
 
-          {/* Decorative gradient */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+          {/* Layered wave at the bottom of the hero */}
+          <div className="absolute bottom-0 left-0 right-0 pointer-events-none" aria-hidden="true">
+            <svg viewBox="0 0 1440 120" className="w-full h-auto block" preserveAspectRatio="none">
+              <path d="M0 60 Q360 10 720 50 T1440 40 V120 H0 Z" fill="#ffffff" opacity="0.6" />
+              <path d="M0 80 Q360 40 720 72 T1440 64 V120 H0 Z" fill="#ffffff" />
+            </svg>
+          </div>
         </section>
 
         {/* Stats Section */}
@@ -98,10 +136,8 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
               <FadeIn delay={0.1}>
                 <div className="space-y-4">
-                  <div className="mx-auto h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-                    <svg className="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                  <div className="mx-auto h-16 w-16 rounded-full bg-accent/10 ring-1 ring-accent/30 flex items-center justify-center">
+                    <Globe2 className="h-7 w-7 text-primary" strokeWidth={1.75} aria-hidden="true" />
                   </div>
                   <h3 className="text-xl font-bold">איגוד ארצי</h3>
                   <div className="text-muted-foreground text-lg">
@@ -112,10 +148,8 @@ export default function HomePage() {
 
               <FadeIn delay={0.2}>
                 <div className="space-y-4">
-                  <div className="mx-auto h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-                    <svg className="h-8 w-8 text-primary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z" />
-                    </svg>
+                  <div className="mx-auto h-16 w-16 rounded-full bg-accent/10 ring-1 ring-accent/30 flex items-center justify-center">
+                    <Landmark className="h-7 w-7 text-primary" strokeWidth={1.75} aria-hidden="true" />
                   </div>
                   <h3 className="text-xl font-bold">קשרי ממשל</h3>
                   <div className="text-muted-foreground text-lg">
@@ -126,10 +160,8 @@ export default function HomePage() {
 
               <FadeIn delay={0.3}>
                 <div className="space-y-4">
-                  <div className="mx-auto h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-                    <svg className="h-8 w-8 text-primary" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" />
-                    </svg>
+                  <div className="mx-auto h-16 w-16 rounded-full bg-accent/10 ring-1 ring-accent/30 flex items-center justify-center">
+                    <BadgeCheck className="h-7 w-7 text-primary" strokeWidth={1.75} aria-hidden="true" />
                   </div>
                   <h3 className="text-xl font-bold">חברות באיגוד</h3>
                   <div className="text-muted-foreground text-lg">
@@ -190,8 +222,7 @@ export default function HomePage() {
             </FadeIn>
 
             <div className="max-w-5xl mx-auto">
-              {/* First row - 3 goals */}
-              <FadeInStagger className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <FadeInStagger className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-0">
                 {[
                   {
                     title: "חיזוק המעמד הענפי",
@@ -205,41 +236,6 @@ export default function HomePage() {
                     title: "רגולציה מאוזנת ומותאמת",
                     description: "קידום התאמת נהלים ודרישות למציאות התפעולית והטכנולוגית של הבריכות הטיפוליות.",
                   },
-                ].map((goal, index) => (
-                  <FadeInStaggerItem key={index}>
-                    <Card className="h-full card-hover border-0 shadow-sm">
-                      <CardHeader>
-                        <div className="flex items-center gap-4">
-                          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                            <svg
-                              className="h-6 w-6"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              aria-hidden="true"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
-                          </div>
-                          <CardTitle as="h3" className="text-lg">{goal.title}</CardTitle>
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-muted-foreground">{goal.description}</p>
-                      </CardContent>
-                    </Card>
-                  </FadeInStaggerItem>
-                ))}
-              </FadeInStagger>
-
-              {/* Second row - 2 goals centered */}
-              <FadeInStagger className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-                {[
                   {
                     title: "יצירת מסגרת ארצית מאורגנת",
                     description: "גיבוש קורת גג ענפית המחזקת שיתוף פעולה, יציבות ותיאום בין הבריכות החברות.",
@@ -250,32 +246,15 @@ export default function HomePage() {
                   },
                 ].map((goal, index) => (
                   <FadeInStaggerItem key={index}>
-                    <Card className="h-full card-hover border-0 shadow-sm">
-                      <CardHeader>
-                        <div className="flex items-center gap-4">
-                          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                            <svg
-                              className="h-6 w-6"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              aria-hidden="true"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
-                          </div>
-                          <CardTitle as="h3" className="text-lg">{goal.title}</CardTitle>
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-muted-foreground">{goal.description}</p>
-                      </CardContent>
-                    </Card>
+                    <div className="group flex items-start gap-5 py-7 border-t border-border transition-colors hover:border-accent/60">
+                      <span className="text-2xl font-bold tabular-nums text-accent-strong leading-none pt-1 transition-transform duration-300 group-hover:-translate-y-0.5">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <div>
+                        <h3 className="text-xl font-bold mb-2 tracking-tight">{goal.title}</h3>
+                        <p className="text-muted-foreground leading-relaxed">{goal.description}</p>
+                      </div>
+                    </div>
                   </FadeInStaggerItem>
                 ))}
               </FadeInStagger>
@@ -342,58 +321,43 @@ export default function HomePage() {
                 {
                   title: "קשרי ממשל ורגולציה",
                   description: "ניהול דיאלוג שוטף עם משרדי הממשלה, קופות החולים והרשויות המקומיות בנושאי מדיניות ותנאי פעילות של בריכות טיפוליות.",
-                  icon: (
-                    <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z" />
-                  ),
+                  Icon: Scale,
                 },
                 {
                   title: "התאמת נהלים למציאות הענפית",
                   description: "קידום בחינה והתאמה של דרישות רגולטוריות למאפייני הבריכות הטיפוליות ולהתפתחות הענף.",
-                  icon: (
-                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
-                  ),
+                  Icon: ClipboardCheck,
                 },
                 {
                   title: "שמירה על מקומן במערך הבריאות והשיקום",
                   description: "פעילות להבטחת המשך שילובן של הבריכות הטיפוליות במערך השירותים הרפואיים והשיקומיים בישראל.",
-                  icon: (
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                  ),
+                  Icon: HeartPulse,
                 },
                 {
                   title: "גיבוש עמדות ענפיות",
                   description: "ריכוז עמדות משותפות של הבריכות החברות והצגתן בפני מקבלי ההחלטות במישור הציבורי והמערכתי.",
-                  icon: (
-                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-                  ),
+                  Icon: Users,
                 },
                 {
                   title: "ליווי והכוונה מוסדית",
                   description: "סיוע לבריכות החברות בהתמודדות עם סוגיות רישוי, בטיחות ותפעול.",
-                  icon: (
-                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" />
-                  ),
+                  Icon: Compass,
                 },
                 {
                   title: "שיח וניהול ענפי",
                   description: "יצירת מסגרת לשיתוף ידע ניהולי ותפעולי בין מנהלי הבריכות וחיזוק שיתופי פעולה בענף.",
-                  icon: (
-                    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z" />
-                  ),
+                  Icon: MessagesSquare,
                 },
               ].map((activity, index) => (
                 <FadeInStaggerItem key={index}>
-                  <Card className="text-center h-full card-hover border-0 shadow-sm">
+                  <Card className="group text-center h-full card-hover border border-border shadow-none bg-white">
                     <CardHeader>
-                      <div className="mx-auto mb-4 h-16 w-16 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-                        <svg
-                          className="h-8 w-8 text-primary"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
+                      <div className="mx-auto mb-4 h-14 w-14 rounded-full bg-accent/10 ring-1 ring-accent/25 flex items-center justify-center transition-colors group-hover:bg-accent/20">
+                        <activity.Icon
+                          className="h-7 w-7 text-primary"
+                          strokeWidth={1.75}
                           aria-hidden="true"
-                        >
-                          {activity.icon}
-                        </svg>
+                        />
                       </div>
                       <CardTitle as="h3" className="text-xl">{activity.title}</CardTitle>
                     </CardHeader>
@@ -407,12 +371,26 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Join Section - Premium CTA */}
-        <section id="join" className="py-24 bg-foreground text-background" aria-labelledby="join-heading">
-          <div className="container mx-auto px-6 md:px-12 lg:px-20">
+        {/* Join Section - Deep-water CTA */}
+        <section
+          id="join"
+          className="relative overflow-hidden py-24 text-white animate-sheen"
+          style={{
+            background:
+              "linear-gradient(135deg, #07344F 0%, #0A3D62 45%, #135A86 100%)",
+          }}
+          aria-labelledby="join-heading"
+        >
+          {/* Floating aqua orb */}
+          <div
+            className="absolute -bottom-20 -left-16 h-80 w-80 rounded-full animate-float-slow pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(75,184,201,0.30), transparent 70%)" }}
+            aria-hidden="true"
+          />
+          <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <FadeIn>
-                <span className="text-primary font-medium mb-4 block">הצטרפו אלינו</span>
+                <span className="text-accent font-semibold mb-4 block">הצטרפו אלינו</span>
                 <h2 id="join-heading" className="text-4xl md:text-5xl font-bold mb-6">
                   הצטרפות לאיגוד הבריכות הטיפוליות בישראל
                 </h2>
@@ -453,7 +431,7 @@ export default function HomePage() {
                 <Button
                   asChild
                   size="lg"
-                  className="text-lg px-10 py-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  className="text-lg px-10 py-6 btn-ink bg-white text-primary hover:bg-accent hover:text-white font-medium"
                 >
                   <Link href="/contact">טופס הצטרפות</Link>
                 </Button>

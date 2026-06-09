@@ -14,18 +14,19 @@ export default function PrivacyPage() {
       <main id="main-content" className="flex-1 py-24 pt-32">
         <div className="container mx-auto px-6 md:px-12 lg:px-20">
           <div className="max-w-3xl mx-auto">
-            <h1 className="text-4xl font-bold mb-8">מדיניות פרטיות</h1>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">מדיניות פרטיות</h1>
+            <div className="h-1 w-16 bg-accent rounded-full mt-4 mb-10" aria-hidden="true" />
 
             <div className="prose prose-lg max-w-none space-y-8 text-muted-foreground">
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">1. כללי</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">1. כללי</h2>
                 <p>
                   איגוד הבריכות הטיפוליות בישראל (להלן: "האיגוד") מכבד את פרטיות המשתמשים באתר. מדיניות פרטיות זו מסבירה כיצד אנו אוספים, משתמשים ומגנים על המידע האישי שלכם.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">2. איסוף מידע</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">2. איסוף מידע</h2>
                 <p>אנו אוספים מידע בשני אופנים:</p>
                 <ul className="list-disc list-inside space-y-2 mt-2">
                   <li>מידע שאתם מוסרים לנו באופן ישיר (למשל, בטופס יצירת קשר)</li>
@@ -34,7 +35,7 @@ export default function PrivacyPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">3. סוגי המידע הנאסף</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">3. סוגי המידע הנאסף</h2>
                 <ul className="list-disc list-inside space-y-2">
                   <li>שם מלא</li>
                   <li>כתובת דוא"ל</li>
@@ -46,7 +47,7 @@ export default function PrivacyPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">4. שימוש במידע</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">4. שימוש במידע</h2>
                 <p>המידע שנאסף משמש אותנו למטרות הבאות:</p>
                 <ul className="list-disc list-inside space-y-2 mt-2">
                   <li>מענה לפניות ובקשות</li>
@@ -57,7 +58,7 @@ export default function PrivacyPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">5. שיתוף מידע</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">5. שיתוף מידע</h2>
                 <p>
                   אנו לא מוכרים, משכירים או משתפים את המידע האישי שלכם עם צדדים שלישיים, למעט במקרים הבאים:
                 </p>
@@ -69,14 +70,14 @@ export default function PrivacyPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">6. אבטחת מידע</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">6. אבטחת מידע</h2>
                 <p>
                   אנו נוקטים באמצעי אבטחה סבירים להגנה על המידע האישי שלכם מפני גישה, שימוש או חשיפה בלתי מורשים.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">7. זכויות המשתמש</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">7. זכויות המשתמש</h2>
                 <p>על פי חוק הגנת הפרטיות, יש לכם זכות:</p>
                 <ul className="list-disc list-inside space-y-2 mt-2">
                   <li>לעיין במידע שנאסף אודותיכם</li>
@@ -87,14 +88,14 @@ export default function PrivacyPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">8. עוגיות (Cookies)</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">8. עוגיות (Cookies)</h2>
                 <p>
                   האתר משתמש בעוגיות לצורך שיפור חוויית המשתמש. ניתן לשלוט בהגדרות העוגיות דרך הדפדפן שלכם.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-2xl font-semibold text-foreground mb-4">9. יצירת קשר</h2>
+                <h2 className="text-2xl font-semibold text-primary mb-4">9. יצירת קשר</h2>
                 <p>
                   לשאלות או בקשות בנוגע למדיניות הפרטיות, ניתן לפנות אלינו בכתובת: office@itpa.org.il
                 </p>
